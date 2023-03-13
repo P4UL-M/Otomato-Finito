@@ -1,4 +1,5 @@
 from pyflowchart import *
+from tabulate import tabulate
 
 
 class automata():
@@ -46,9 +47,27 @@ class automata():
         self.states["i"] = state
         self.init_state = "i"
 
-    # TODO : Menu principal - Soizic
+    #TODO : Display - Paul
+    def display(self, style=0) -> None:
+        styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
+        table = []
+        for state,properties in self.states.items():
+            line = [state]
+            for letter in self.language:
+                linestr = ", ".join(properties[letter])
+                line.append(linestr)
+            if properties["start"]:
+                line.append("\u2713")
+            else:
+                line.append("")
+            if properties["end"]:
+                line.append("\u2713")
+            else:
+                line.append("")
+            table.append(line)
+        print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
 
-    # TODO : Display - Paul
+    # TODO : Menu principal - Soizic
 
     # TODO : Minimize - Jade
 
