@@ -1,4 +1,6 @@
 from pyflowchart import *
+from tabulate import tabulate
+
 
 
 class automata():
@@ -30,26 +32,45 @@ class automata():
         if self.ifStandard():
             raise Exception("Your automata is already standard")
         transition = {}
-        for state, properties in self.states.items():
+        emptyRecognized = False
+        for state,properties in self.states.items():
             if properties["start"]:
                 properties["start"] = False
+                if properties["end"]:
+                    emptyRecognized = True
                 for letter in self.language:
                     transition[letter] = properties[letter]
         state = {
             "start": True,
-            "end": False,
+            "end": emptyRecognized,
         }
         state.update(transition)
         self.states["i"] = state
         self.init_state = "i"
 
+    #TODO : Display - Paul
+    def display(self, style=0) -> None:
+        styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
+        table = []
+        for state,properties in self.states.items():
+            line = [state]
+            for letter in self.language:
+                linestr = ", ".join(properties[letter])
+                line.append(linestr)
+            if properties["start"]:
+                line.append("\u2713")
+            else:
+                line.append("")
+            if properties["end"]:
+                line.append("\u2713")
+            else:
+                line.append("")
+            table.append(line)
+        print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
+
     # TODO : Menu principal - Soizic
 
-    # TODO : Display - Paul
-
     # TODO : Minimize - Jade
-
-    # TODO : Complement + Word recognition - Axel
 
     # TODO: Determinize + complete - Quentin
     def complete(self) -> None:
@@ -67,12 +88,27 @@ class automata():
             }
             P.update(p_states)
             self.states["P"] = P
-
         for properties in self.states.values():
             for letter in self.language:
                 if (properties[letter] == []):
                     properties[letter] = ["P"]
 
+    # TODO : Complement + Word recognition - Axel
+    def recognize(self, word:str) -> bool:
+        def recognizeRec(state:str, word:str) -> bool:
+            if word == "":
+                return self.states[state]["end"]
+            else:
+                for endState in self.states[state][word[0]]:
+                    if recognizeRec(endState, word[1:]):
+                        return True
+                return False
+        if self.init_state:
+            return recognizeRec(self.init_state, word)
+        else:
+            init_states = [state for state,properties in self.states.items() if properties["start"]]
+            return any(map(lambda state: recognizeRec(state, word), init_states))
+            
     def export(self) -> str:
         if not self.init_state:
             raise Exception(
