@@ -73,25 +73,82 @@ class automata():
     # TODO : Minimize - Jade
 
     # TODO: Determinize + complete - Quentin
-    def complete(self) -> None:
-        create = True
-        for states in self.states:
-            if ("P" in states):
-                create = False
-        if create:
-            P = {}
+    def isComplete(self) -> bool:
+        for states in self.states.values():
             for letter in self.language:
-                P[letter] = ["P"]
-            p_states = {
-                "start": False,
-                "end": False,
-            }
-            P.update(p_states)
-            self.states["P"] = P
+                if (states[letter] == []):
+                    return False
+        return True
+    
+    def complete(self) -> None:
+        if self.isComplete() == True:
+            return
+        P = {}
+        for letter in self.language:
+            P[letter] = ["P"]
+        p_states = {
+            "start": False,
+            "end": False,
+        }
+        P.update(p_states)
+        self.states["P"] = P
         for properties in self.states.values():
             for letter in self.language:
                 if (properties[letter] == []):
                     properties[letter] = ["P"]
+
+    def ifDeterministic(self) -> bool:
+        for states in self.states.values():
+            for letter in self.language:
+                if (len(states[letter]) > 1):
+                    return False
+        return True
+
+    def determinize(self) -> None:
+        def determinizeRec(actual_state:str, new_automata:dict[str, dict[str, list[str]] | bool] = {}, start=False) -> str:
+            # make list of transitions from actual state
+            transitions = {}
+            isEnd = False
+            for state, properties in self.states.items():
+                for statepart in actual_state:
+                    if statepart in state:
+                        for letter in self.language:
+                            transitions[letter] = transitions.get(letter, []) + properties[letter]
+                        if properties["end"]:
+                            isEnd = True
+            # compact transitions
+            join_transitions = {}
+            for letter in self.language:
+                temp = list(set(transitions[letter]))
+                temp.sort()
+                if len(temp) == 0:
+                    join_transitions[letter] = []
+                else:
+                    join_transitions[letter] = ["".join(temp)]
+            # make new states from transitions
+            new_states = []
+            for letter in self.language:
+                if len(join_transitions[letter]) > 0:
+                    if join_transitions[letter][0] != "":
+                        new_states.append("".join(join_transitions[letter][0]))
+            # add new states to automata
+            if actual_state not in new_automata.keys():
+                new_automata[actual_state] = {
+                    "start": start,
+                    "end": isEnd,
+                }
+                new_automata[actual_state].update(join_transitions)
+            for state in new_states:
+                if state not in new_automata.keys():
+                    determinizeRec(state, new_automata)
+            return new_automata
+        if self.ifDeterministic():
+            raise Exception("Your automata is already deterministic")
+        if self.init_state:
+            self.states = determinizeRec(self.init_state, start=True)
+        else:
+            init_states = "".join([state for state,properties in self.states.items() if properties["start"]])
+            self.states = determinizeRec(init_states, start=True)
 
     # TODO : Complement + Word recognition - Axel
     def recognize(self, word:str) -> bool:
@@ -108,7 +165,7 @@ class automata():
         else:
             init_states = [state for state,properties in self.states.items() if properties["start"]]
             return any(map(lambda state: recognizeRec(state, word), init_states))
-            
+
     def export(self) -> str:
         if not self.init_state:
             raise Exception(
