@@ -12,6 +12,7 @@ try:
 except Exception as err:
     print(err)
 
-# export to .flowchart
-with open("diag.flowchart", "w+") as f:
-    f.write(myAutomata.export())
+myAutomata.determinize()
+print(myAutomata.isComplete())
+myAutomata.complete()
+myAutomata.display()

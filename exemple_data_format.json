@@ -1,15 +1,15 @@
 {
-    "language": ["A", "B"],
+    "language": ["A", "B", "C", "D"],
     "states": {
         "0": {
             "A": ["1"],
-            "B": [],
             "start": true,
             "end": false
         },
         "1": {
             "A": ["1", "0"],
             "B": ["2"],
+            "D": ["2"],
             "start": false,
             "end": false
         },

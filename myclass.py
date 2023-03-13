@@ -76,7 +76,7 @@ class automata():
     def isComplete(self) -> bool:
         for states in self.states.values():
             for letter in self.language:
-                if (states[letter] == []):
+                if letter not in states.keys() or len(states[letter]) == 0:
                     return False
         return True
     
@@ -94,14 +94,15 @@ class automata():
         self.states["P"] = P
         for properties in self.states.values():
             for letter in self.language:
-                if (properties[letter] == []):
+                if letter not in properties.keys() or len(properties[letter]) == 0:
                     properties[letter] = ["P"]
 
-    def ifDeterministic(self) -> bool:
+    def isDeterministic(self) -> bool:
         for states in self.states.values():
             for letter in self.language:
-                if (len(states[letter]) > 1):
-                    return False
+                if letter in states.keys():
+                    if (len(states[letter]) > 1):
+                        return False
         return True
 
     def determinize(self) -> None:
@@ -113,12 +114,16 @@ class automata():
                 for statepart in actual_state:
                     if statepart in state:
                         for letter in self.language:
-                            transitions[letter] = transitions.get(letter, []) + properties[letter]
+                            if letter in properties.keys():
+                                transitions[letter] = transitions.get(letter, []) + properties[letter]
                         if properties["end"]:
                             isEnd = True
             # compact transitions
             join_transitions = {}
             for letter in self.language:
+                if letter not in transitions.keys():
+                    join_transitions[letter] = []
+                    continue
                 temp = list(set(transitions[letter]))
                 temp.sort()
                 if len(temp) == 0:
@@ -142,7 +147,7 @@ class automata():
                 if state not in new_automata.keys():
                     determinizeRec(state, new_automata)
             return new_automata
-        if self.ifDeterministic():
+        if self.isDeterministic():
             raise Exception("Your automata is already deterministic")
         if self.init_state:
             self.states = determinizeRec(self.init_state, start=True)
