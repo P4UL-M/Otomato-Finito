@@ -53,8 +53,16 @@ class automata():
             for letter in self.language:
                 linestr = ", ".join(properties[letter])
                 line.append(linestr)
+            if properties["start"]:
+                line.append("\u2713")
+            else:
+                line.append("")
+            if properties["end"]:
+                line.append("\u2713")
+            else:
+                line.append("")
             table.append(line)
-        print(tabulate(table,headers=["State"]+self.language,tablefmt="fancy_grid"))
+        print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt="fancy_grid"))
 
     #TODO : Minimize - Jade
 
