@@ -29,14 +29,17 @@ class automata():
         if self.ifStandard():
             raise Exception("Your automata is already standard")
         transition = {}
+        emptyRecognized = False
         for state,properties in self.states.items():
             if properties["start"]:
                 properties["start"] = False
+                if properties["end"]:
+                    emptyRecognized = True
                 for letter in self.language:
                     transition[letter] = properties[letter]
         state = {
             "start": True,
-            "end": False,
+            "end": emptyRecognized,
         }
         state.update(transition)
         self.states["i"] = state
@@ -50,6 +53,21 @@ class automata():
 
     #TODO : Complement + Word recognition - Axel
 
+    def recognize(self, word:str) -> bool:
+        def recognizeRec(state:str, word:str) -> bool:
+            if word == "":
+                return self.states[state]["end"]
+            else:
+                for endState in self.states[state][word[0]]:
+                    if recognizeRec(endState, word[1:]):
+                        return True
+                return False
+        if self.init_state:
+            return recognizeRec(self.init_state, word)
+        else:
+            init_states = [state for state,properties in self.states.items() if properties["start"]]
+            return any(map(lambda state: recognizeRec(state, word), init_states))
+                    
     #TODO: Determinize + complete - Quentin
 
     def export(self) -> str:
