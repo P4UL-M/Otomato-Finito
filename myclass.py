@@ -46,7 +46,8 @@ class automata():
     #TODO : Menu principal - Soizic
 
     #TODO : Display - Paul
-    def display(self) -> None:
+    def display(self, style=0) -> None:
+        styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
         table = []
         for state,properties in self.states.items():
             line = [state]
@@ -62,7 +63,7 @@ class automata():
             else:
                 line.append("")
             table.append(line)
-        print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt="fancy_grid"))
+        print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
 
     #TODO : Minimize - Jade
 
