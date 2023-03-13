@@ -68,7 +68,7 @@ class automata():
             P.update(p_states)
             self.states["P"] = P
 
-        for state, properties in self.states.items():
+        for properties in self.states.keys():
             for letter in self.language:
                 if (properties[letter] == []):
                     properties[letter] = ["P"]
