@@ -42,7 +42,17 @@ class automata():
         self.states["i"] = state
         self.init_state = "i"
 
-    def export(self):
+    #TODO : Menu principal - Soizic
+
+    #TODO : Display - Paul
+
+    #TODO : Minimize - Jade
+
+    #TODO : Complement + Word recognition - Axel
+
+    #TODO: Determinize + complete - Quentin
+
+    def export(self) -> str:
         if not self.init_state:
             raise Exception("Your automata must at least be standard to be export.")
         
@@ -63,4 +73,3 @@ class automata():
 
         chart = Flowchart(nodes[self.init_state])
         return chart.flowchart()
-      
