@@ -2,7 +2,6 @@ from pyflowchart import *
 from tabulate import tabulate
 
 
-
 class automata():
     def __init__(self, data) -> None:
         self.language: list[str] = data["language"]
@@ -33,7 +32,7 @@ class automata():
             raise Exception("Your automata is already standard")
         transition = {}
         emptyRecognized = False
-        for state,properties in self.states.items():
+        for state, properties in self.states.items():
             if properties["start"]:
                 properties["start"] = False
                 if properties["end"]:
@@ -48,11 +47,11 @@ class automata():
         self.states["i"] = state
         self.init_state = "i"
 
-    #TODO : Display - Paul
+    # TODO : Display - Paul
     def display(self, style=0) -> None:
         styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
         table = []
-        for state,properties in self.states.items():
+        for state, properties in self.states.items():
             line = [state]
             for letter in self.language:
                 linestr = ", ".join(properties[letter])
@@ -66,7 +65,8 @@ class automata():
             else:
                 line.append("")
             table.append(line)
-        print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
+        print(tabulate(table, headers=[
+              "State"]+self.language + ["Start", "End"], tablefmt=styles[style]))
 
     # TODO : Menu principal - Soizic
 
@@ -74,12 +74,18 @@ class automata():
 
     # TODO: Determinize + complete - Quentin
     def isComplete(self) -> bool:
+        res = True
         for states in self.states.values():
+            epsilon = False
             for letter in self.language:
-                if (states[letter] == []):
-                    return False
-        return True
-    
+                if (states[letter] == ["€"]):
+                    epsilon = True
+            if (not epsilon):
+                for letter in self.language:
+                    if (states[letter] == []):
+                        res = False
+        return res
+
     def complete(self) -> None:
         if self.isComplete() == True:
             return
@@ -93,8 +99,12 @@ class automata():
         P.update(p_states)
         self.states["P"] = P
         for properties in self.states.values():
+            epsilon = False
             for letter in self.language:
-                if (properties[letter] == []):
+                if (properties[letter] == ["€"]):
+                    epsilon = True
+            for letter in self.language:
+                if (properties[letter] == [] and not epsilon):
                     properties[letter] = ["P"]
 
     def ifDeterministic(self) -> bool:
@@ -105,7 +115,7 @@ class automata():
         return True
 
     def determinize(self) -> None:
-        def determinizeRec(actual_state:str, new_automata:dict[str, dict[str, list[str]] | bool] = {}, start=False) -> str:
+        def determinizeRec(actual_state: str, new_automata: dict[str, dict[str, list[str]] | bool] = {}, start=False) -> str:
             # make list of transitions from actual state
             transitions = {}
             isEnd = False
@@ -113,7 +123,8 @@ class automata():
                 for statepart in actual_state:
                     if statepart in state:
                         for letter in self.language:
-                            transitions[letter] = transitions.get(letter, []) + properties[letter]
+                            transitions[letter] = transitions.get(
+                                letter, []) + properties[letter]
                         if properties["end"]:
                             isEnd = True
             # compact transitions
@@ -147,12 +158,13 @@ class automata():
         if self.init_state:
             self.states = determinizeRec(self.init_state, start=True)
         else:
-            init_states = "".join([state for state,properties in self.states.items() if properties["start"]])
+            init_states = "".join(
+                [state for state, properties in self.states.items() if properties["start"]])
             self.states = determinizeRec(init_states, start=True)
 
     # TODO : Complement + Word recognition - Axel
-    def recognize(self, word:str) -> bool:
-        def recognizeRec(state:str, word:str) -> bool:
+    def recognize(self, word: str) -> bool:
+        def recognizeRec(state: str, word: str) -> bool:
             if word == "":
                 return self.states[state]["end"]
             else:
@@ -163,7 +175,8 @@ class automata():
         if self.init_state:
             return recognizeRec(self.init_state, word)
         else:
-            init_states = [state for state,properties in self.states.items() if properties["start"]]
+            init_states = [
+                state for state, properties in self.states.items() if properties["start"]]
             return any(map(lambda state: recognizeRec(state, word), init_states))
 
     def export(self) -> str:
