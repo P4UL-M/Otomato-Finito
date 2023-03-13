@@ -1,13 +1,19 @@
 from pyflowchart import *
 from tabulate import tabulate
 
-
+def emptyWordError(func):
+    def wrapper(*args, **kwargs):
+        if args[0].emptyWordExpression:
+            raise Exception("This function doesn't work with empty word expression")
+        return func(*args, **kwargs)
+    return wrapper
 
 class automata():
     def __init__(self, data) -> None:
         self.language: list[str] = data["language"]
         self.states: dict[str, dict[str, list[str]] | bool] = data["states"]
         self.init_state: str = self.findInitState()
+        self.emptyWordExpression = self.checkEmptyWordExpression()
 
     def findInitState(self) -> str:
         initState = None
@@ -18,7 +24,14 @@ class automata():
                 return None
         return initState
 
-    def ifStandard(self) -> bool:
+    def checkEmptyWordExpression(self) -> bool:
+        for letter in self.language:
+            if letter == "€":
+                return True
+        return False
+
+    @emptyWordError
+    def isStandard(self) -> bool:
         if self.init_state == None:
             return False
         for state, propreties in self.states.items():
@@ -28,8 +41,9 @@ class automata():
                         return False
         return True
 
+    @emptyWordError
     def standardize(self) -> None:
-        if self.ifStandard():
+        if self.isStandard():
             raise Exception("Your automata is already standard")
         transition = {}
         emptyRecognized = False
@@ -48,31 +62,7 @@ class automata():
         self.states["i"] = state
         self.init_state = "i"
 
-    #TODO : Display - Paul
-    def display(self, style=0) -> None:
-        styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
-        table = []
-        for state,properties in self.states.items():
-            line = [state]
-            for letter in self.language:
-                linestr = ", ".join(properties[letter])
-                line.append(linestr)
-            if properties["start"]:
-                line.append("\u2713")
-            else:
-                line.append("")
-            if properties["end"]:
-                line.append("\u2713")
-            else:
-                line.append("")
-            table.append(line)
-        print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
-
-    # TODO : Menu principal - Soizic
-
-    # TODO : Minimize - Jade
-
-    # TODO: Determinize + complete - Quentin
+    @emptyWordError
     def isComplete(self) -> bool:
         for states in self.states.values():
             for letter in self.language:
@@ -80,6 +70,7 @@ class automata():
                     return False
         return True
     
+    @emptyWordError
     def complete(self) -> None:
         if self.isComplete() == True:
             return
@@ -97,6 +88,7 @@ class automata():
                 if letter not in properties.keys() or len(properties[letter]) == 0:
                     properties[letter] = ["P"]
 
+    @emptyWordError
     def isDeterministic(self) -> bool:
         for states in self.states.values():
             for letter in self.language:
@@ -105,6 +97,7 @@ class automata():
                         return False
         return True
 
+    @emptyWordError
     def determinize(self) -> None:
         def determinizeRec(actual_state:str, new_automata:dict[str, dict[str, list[str]] | bool] = {}, start=False) -> str:
             # make list of transitions from actual state
@@ -155,7 +148,7 @@ class automata():
             init_states = "".join([state for state,properties in self.states.items() if properties["start"]])
             self.states = determinizeRec(init_states, start=True)
 
-    # TODO : Complement + Word recognition - Axel
+    @emptyWordError
     def recognize(self, word:str) -> bool:
         def recognizeRec(state:str, word:str) -> bool:
             if word == "":
@@ -170,6 +163,25 @@ class automata():
         else:
             init_states = [state for state,properties in self.states.items() if properties["start"]]
             return any(map(lambda state: recognizeRec(state, word), init_states))
+
+    def display(self, style=0) -> None:
+        styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
+        table = []
+        for state,properties in self.states.items():
+            line = [state]
+            for letter in self.language:
+                linestr = ", ".join(properties[letter])
+                line.append(linestr)
+            if properties["start"]:
+                line.append("\u2713")
+            else:
+                line.append("")
+            if properties["end"]:
+                line.append("\u2713")
+            else:
+                line.append("")
+            table.append(line)
+        print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
 
     def export(self) -> str:
         if not self.init_state:
