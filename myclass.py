@@ -2,6 +2,7 @@ from pyflowchart import *
 from tabulate import tabulate
 
 
+
 class automata():
     def __init__(self, data) -> None:
         self.language: list[str] = data["language"]
@@ -87,7 +88,7 @@ class automata():
             }
             P.update(p_states)
             self.states["P"] = P
-        for properties in self.states.keys():
+        for properties in self.states.values():
             for letter in self.language:
                 if (properties[letter] == []):
                     properties[letter] = ["P"]
