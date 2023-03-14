@@ -12,8 +12,7 @@ myAutomata = automata(data)
 # except Exception as err:
 #     print(err)
 
-myAutomata.determinize()
-#print(myAutomata.recognize('AAAAAAB'))
+print(myAutomata.recognize('AAAAAA'))
 #print(myAutomata.isComplete())
 #myAutomata.complete()
 myAutomata.display(1)

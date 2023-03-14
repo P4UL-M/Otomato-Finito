@@ -177,7 +177,7 @@ class automata():
     #TODO: correct this functions
     @emptyWordErrorWrapper(True)
     def determinize(self) -> None:
-        print(self.computeEpsilonClosure("1"))
+        ...
 
     @emptyWordErrorWrapper(True)
     def computeEpsilonClosure(self, states):
@@ -194,20 +194,6 @@ class automata():
             epsilon_closure.update(new_states)
         return epsilon_closure
 
-    def computeNextState(self, states, letter):
-        """Compute the next state from a set of states and a letter"""
-        next_states = set()
-        for state in states:
-            if letter in self.states[state]:
-                next_states.update(self.states[state][letter])
-        return next_states
-
-    def containsEndState(self, states):
-        """Check if a set of states contains an end state"""
-        for state in states:
-            if self.states[state]["end"]:
-                return True
-        return False
     #TODO: End of correct this functions
 
     @emptyWordErrorWrapper(False)
@@ -218,10 +204,13 @@ class automata():
             else:
                 if word[0] not in self.language:
                     raise Exception("The word contains a letter that is not in the language of the automata")
-                for endState in self.states[state][word[0]]:
-                    if recognizeRec(endState, word[1:]):
-                        return True
-                return False
+                if word[0] not in self.states[state].keys():
+                    return False
+                else:
+                    for endState in self.states[state][word[0]]:
+                        if recognizeRec(endState, word[1:]):
+                            return True
+                    return False
         if self.init_state:
             return recognizeRec(self.init_state, word)
         else:
@@ -236,14 +225,17 @@ class automata():
             else:
                 if word[0] not in self.language:
                     raise Exception("The word contains a letter that is not in the language of the automata")
-                for endState in self.states[state][word[0]]:
-                    if recognizeRec(endState, word[1:]):
-                        return True
                 if "€" in self.states[state]:
                     for endState in self.states[state]["€"]:
                         if recognizeRec(endState, word):
                             return True
-                return False
+                if word[0] not in self.states[state].keys():
+                    return False
+                else:
+                    for endState in self.states[state][word[0]]:
+                        if recognizeRec(endState, word[1:]):
+                            return True
+                    return False
         if self.init_state:
             return recognizeRec(self.init_state, word)
         else:
