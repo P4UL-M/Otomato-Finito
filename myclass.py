@@ -1,5 +1,9 @@
 from pyflowchart import *
 from tabulate import tabulate
+from functools import lru_cache
+
+class BadAutomata(Exception):
+    pass
 
 funcs = {}
 # wrapper that choose which two function with the same name to execute depending if the automata have empty word expression or not
@@ -10,7 +14,7 @@ def emptyWordErrorWrapper(emptyWord:bool):
             if args[0].isAsync == emptyWord:
                 return func(*args, **kwargs)
             else:
-                raise Exception(f"This function doesn't work {'without' if emptyWord else 'with'} empty word expression")
+                raise BadAutomata(f"This function doesn't work {'without' if emptyWord else 'with'} empty word expression")
         if func.__name__ not in funcs.keys():
             funcs[func.__name__] = func
             return wrapper2
@@ -19,21 +23,45 @@ def emptyWordErrorWrapper(emptyWord:bool):
             def wrapper3(*args, **kwargs):
                 try:
                     return wrapper2(*args, **kwargs)
-                except Exception as err:
+                except BadAutomata as err:
                     return otherFunc(*args, **kwargs)
             return wrapper3
     return wrapper
 
+class stateName():
+    # a frozenset of strings
+    def __init__(self, *names) -> None:
+        self.name = frozenset(names)
+
+    def __eq__(self, __o: object) -> bool:
+        if not isinstance(__o, stateName):
+            return False
+        return self.name == __o.name
+
+    def __hash__(self) -> int:
+        return hash(self.name)
+    
+    def __str__(self) -> str:
+        return str("".join(sorted(self.name)))
+    
+    def getPrime(self) -> str:
+        return str("".join(sorted(self.name)) + "'")
+
 class automata():
     def __init__(self, data) -> None:
+        # set language
         self.language: list[str] = data["language"]
-        self.states: dict[str, dict[str, list[str]] | bool] = data["states"]
-        self.init_state: str = self.findInitState()
-        # sort states letters
-        for properties in self.states.values():
+        
+        # convert states to frozenset notation
+        temp_states:dict[str, dict[str, list[str]] | bool] = data["states"]
+        # pass each endState to frozenset
+        for state, properties in temp_states.items():
             for letter in self.language:
                 if letter in properties.keys():
-                    properties[letter].sort()
+                    properties[letter] = list(map(lambda x: stateName(x), properties[letter]))
+        # pass each state to frozenset
+        temp_states = {stateName(state): properties for state, properties in temp_states.items()}
+        self.states: dict[stateName, dict[str, list[stateName]] | bool] = temp_states
 
     def findInitState(self) -> str:
         initState = None
@@ -55,6 +83,15 @@ class automata():
                 return True
         return False
 
+    @property
+    def init_state(self) -> stateName:
+        return self.init_state
+    
+    @init_state.getter
+    def init_state(self) -> stateName:
+        return self.findInitState()
+
+    # TODO: make it work stateName
     @emptyWordErrorWrapper(False)
     def isStandard(self) -> bool:
         if self.init_state == None:
@@ -66,6 +103,7 @@ class automata():
                         return False
         return True
 
+    # TODO: make it work stateName
     @emptyWordErrorWrapper(False)
     def standardize(self) -> None:
         if self.isStandard():
@@ -87,6 +125,7 @@ class automata():
         self.states["i"] = state
         self.init_state = "i"
 
+    # TODO: make it work stateName
     @emptyWordErrorWrapper(False)
     def isComplete(self) -> bool:
         for states in self.states.values():
@@ -95,6 +134,7 @@ class automata():
                     return False
         return True
     
+    # TODO: make it work stateName
     @emptyWordErrorWrapper(False)
     def complete(self) -> None:
         if self.isComplete() == True:
@@ -123,6 +163,7 @@ class automata():
                         return False
         return True
 
+    # TODO: make it work stateName
     @emptyWordErrorWrapper(False)
     def determinize(self) -> None:
         def determinizeRec(actual_state:str, new_automata:dict[str, dict[str, list[str]] | bool] = {}, start=False) -> str:
@@ -174,13 +215,39 @@ class automata():
             init_states = "".join([state for state,properties in self.states.items() if properties["start"]])
             self.states = determinizeRec(init_states, start=True)
 
-    #TODO: correct this functions
     @emptyWordErrorWrapper(True)
     def determinize(self) -> None:
-        ...
+        prime_states: dict[stateName, set[stateName]] = {}
+        starting_states = [state for state,properties in self.states.items() if properties["start"]]
+        prime_states[stateName(*[s.getPrime() for s in starting_states])] = self._computeEpsilonClosure(*starting_states)
+        new_automaton = {}
+        isInit = True
+        while prime_states:
+            state, englobed_states = prime_states.popitem()
+            if state in new_automaton.keys():
+                continue
+            new_state = {}
+            for letter in self.language:
+                if letter == "€":
+                    continue
+                next_states:set[stateName] = set()
+                for s in englobed_states:
+                    next_states.update(self._computeNextStates(s, letter))
+                if len(next_states) > 0:
+                    new_prime_state_name = stateName(*[s.getPrime() for s in next_states])
+                    new_state[letter] = [new_prime_state_name]
+                    prime_states[new_prime_state_name] = self._computeEpsilonClosure(*next_states)
+            new_state["start"] = isInit
+            new_state["end"] = any(self.states[s]["end"] for s in englobed_states)
+            isInit = False
+            new_automaton[state] = new_state
+        self.states = new_automaton
+        self.language.remove("€")
 
+    # cache for epsilon closure
     @emptyWordErrorWrapper(True)
-    def computeEpsilonClosure(self, states):
+    @lru_cache(maxsize=None)
+    def _computeEpsilonClosure(self, *states:stateName) -> set[stateName]:
         """Compute the ε-closure of a set of states"""
         epsilon_closure = set(states)
         while True:
@@ -194,7 +261,11 @@ class automata():
             epsilon_closure.update(new_states)
         return epsilon_closure
 
-    #TODO: End of correct this functions
+    def _computeNextStates(self, state, letter) -> set[stateName]:
+        """Compute the next states for a given state and letter"""
+        if letter in self.states[state]:
+            return set(self.states[state][letter])
+        return set()
 
     @emptyWordErrorWrapper(False)
     def recognize(self, word:str) -> bool:
@@ -219,7 +290,7 @@ class automata():
 
     @emptyWordErrorWrapper(True)
     def recognize(self, word:str) -> bool: # function to recognize a word with the empty word expression in the automata
-        def recognizeRec(state:str, word:str) -> bool:
+        def recognizeRec(state:stateName, word:str) -> bool:
             if word == "":
                 return self.states[state]["end"]
             else:
@@ -246,10 +317,10 @@ class automata():
         styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
         table = []
         for state,properties in self.states.items():
-            line = [state]
+            line = [str(state)]
             for letter in self.language:
                 if letter in properties.keys():
-                    linestr = ", ".join(properties[letter])
+                    linestr = ", ".join(map(str,properties[letter]))
                 else:
                     linestr = ""
                 line.append(linestr)
@@ -264,6 +335,7 @@ class automata():
             table.append(line)
         print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
 
+    # TODO: correct the export to work with the new stateName class
     def export(self) -> str:
         if not self.init_state:
             raise Exception(

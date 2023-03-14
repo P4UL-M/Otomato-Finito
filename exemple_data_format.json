@@ -1,23 +1,31 @@
 {
-    "language": ["A", "B"],
+    "language": ["A", "B", "€"],
     "states": {
         "0": {
             "A": ["1"],
-            "B": ["10"],
+            "B": ["2"],
+            "€": ["1"],
             "start": true,
             "end": false
         },
         "1": {
             "A": ["1", "0"],
-            "B": ["10"],
+            "B": ["2"],
+            "€": ["3"],
             "start": false,
             "end": false
         },
-        "10": {
+        "2": {
             "A": ["0"],
             "B": ["1"],
             "start": false,
             "end": true
+        },
+        "3": {
+            "A": ["0"],
+            "B": ["1"],
+            "start": false,
+            "end": false
         }
     }
 }
