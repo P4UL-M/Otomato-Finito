@@ -12,7 +12,7 @@ myAutomata = automata(data)
 # except Exception as err:
 #     print(err)
 
-myAutomata.determinizeWithEmptyWord()
+myAutomata.determinize()
 #print(myAutomata.isComplete())
 #myAutomata.complete()
-myAutomata.display()
+myAutomata.display(1)

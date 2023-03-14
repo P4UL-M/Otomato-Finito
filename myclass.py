@@ -1,19 +1,27 @@
 from pyflowchart import *
-from collections import deque
 from tabulate import tabulate
 
-def emptyWordError(func):
-    def wrapper(*args, **kwargs):
-        if args[0].emptyWordExpression:
-            raise Exception("This function doesn't work with empty word expression")
-        return func(*args, **kwargs)
-    return wrapper
-
-def unEmptyWordError(func):
-    def wrapper(*args, **kwargs):
-        if not args[0].emptyWordExpression:
-            raise Exception("This function doesn't work without empty word expression")
-        return func(*args, **kwargs)
+funcs = {}
+# wrapper that choose which two function with the same name to execute depending if the automata have empty word expression or not
+def emptyWordErrorWrapper(emptyWord:bool):
+    def wrapper(func):
+        global funcs
+        def wrapper2(*args, **kwargs):
+            if args[0].emptyWordExpression == emptyWord:
+                return func(*args, **kwargs)
+            else:
+                raise Exception(f"This function doesn't work {'without' if emptyWord else 'with'} empty word expression")
+        if func.__name__ not in funcs.keys():
+            funcs[func.__name__] = func
+            return wrapper2
+        else:
+            otherFunc = funcs[func.__name__]
+            def wrapper3(*args, **kwargs):
+                try:
+                    return wrapper2(*args, **kwargs)
+                except Exception as err:
+                    return otherFunc(*args, **kwargs)
+            return wrapper3
     return wrapper
 
 class automata():
@@ -43,7 +51,7 @@ class automata():
                 return True
         return False
 
-    @emptyWordError
+    @emptyWordErrorWrapper(False)
     def isStandard(self) -> bool:
         if self.init_state == None:
             return False
@@ -54,7 +62,7 @@ class automata():
                         return False
         return True
 
-    @emptyWordError
+    @emptyWordErrorWrapper(False)
     def standardize(self) -> None:
         if self.isStandard():
             raise Exception("Your automata is already standard")
@@ -75,7 +83,7 @@ class automata():
         self.states["i"] = state
         self.init_state = "i"
 
-    @emptyWordError
+    @emptyWordErrorWrapper(False)
     def isComplete(self) -> bool:
         for states in self.states.values():
             for letter in self.language:
@@ -83,7 +91,7 @@ class automata():
                     return False
         return True
     
-    @emptyWordError
+    @emptyWordErrorWrapper(False)
     def complete(self) -> None:
         if self.isComplete() == True:
             return
@@ -101,7 +109,7 @@ class automata():
                 if letter not in properties.keys() or len(properties[letter]) == 0:
                     properties[letter] = ["P"]
 
-    @emptyWordError
+    @emptyWordErrorWrapper(False)
     def isDeterministic(self) -> bool:
         for states in self.states.values():
             for letter in self.language:
@@ -110,7 +118,7 @@ class automata():
                         return False
         return True
 
-    @emptyWordError
+    @emptyWordErrorWrapper(False)
     def determinize(self) -> None:
         def determinizeRec(actual_state:str, new_automata:dict[str, dict[str, list[str]] | bool] = {}, start=False) -> str:
             # make list of transitions from actual state
@@ -161,8 +169,8 @@ class automata():
             init_states = "".join([state for state,properties in self.states.items() if properties["start"]])
             self.states = determinizeRec(init_states, start=True)
 
-    @unEmptyWordError
-    def determinizeWithEmptyWord(self) -> None:
+    @emptyWordErrorWrapper(True)
+    def determinize(self) -> None:
         # Create a new start state and add the old start state to it
         new_start_state = "i"
         self.states[new_start_state] = {"start": True, "end": False}
@@ -192,7 +200,7 @@ class automata():
         self.init_state = new_start_state
         self.emptyWordExpression = False
 
-    @unEmptyWordError
+    @emptyWordErrorWrapper(True)
     def computeEpsilonClosure(self, states):
         """Compute the ε-closure of a set of states"""
         epsilon_closure = set(states)
@@ -222,7 +230,7 @@ class automata():
                 return True
         return False
 
-    @emptyWordError
+    @emptyWordErrorWrapper(False)
     def recognize(self, word:str) -> bool:
         def recognizeRec(state:str, word:str) -> bool:
             if word == "":
