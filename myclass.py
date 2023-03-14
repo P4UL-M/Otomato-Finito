@@ -7,7 +7,7 @@ def emptyWordErrorWrapper(emptyWord:bool):
     def wrapper(func):
         global funcs
         def wrapper2(*args, **kwargs):
-            if args[0].emptyWordExpression == emptyWord:
+            if args[0].isAsync == emptyWord:
                 return func(*args, **kwargs)
             else:
                 raise Exception(f"This function doesn't work {'without' if emptyWord else 'with'} empty word expression")
@@ -29,7 +29,6 @@ class automata():
         self.language: list[str] = data["language"]
         self.states: dict[str, dict[str, list[str]] | bool] = data["states"]
         self.init_state: str = self.findInitState()
-        self.emptyWordExpression = self.checkEmptyWordExpression()
         # sort states letters
         for properties in self.states.values():
             for letter in self.language:
@@ -45,7 +44,12 @@ class automata():
                 return None
         return initState
 
-    def checkEmptyWordExpression(self) -> bool:
+    @property
+    def isAsync(self) -> bool:
+        return self._isAsync
+
+    @isAsync.getter
+    def isAsync(self) -> bool:
         for letter in self.language:
             if letter == "€":
                 return True
@@ -109,12 +113,13 @@ class automata():
                 if letter not in properties.keys() or len(properties[letter]) == 0:
                     properties[letter] = ["P"]
 
-    @emptyWordErrorWrapper(False)
     def isDeterministic(self) -> bool:
-        for states in self.states.values():
+        if self.isAsync:
+            return False
+        for properties in self.states.values():
             for letter in self.language:
-                if letter in states.keys():
-                    if (len(states[letter]) > 1):
+                if letter in properties.keys():
+                    if (len(properties[letter]) > 1):
                         return False
         return True
 
@@ -169,36 +174,10 @@ class automata():
             init_states = "".join([state for state,properties in self.states.items() if properties["start"]])
             self.states = determinizeRec(init_states, start=True)
 
+    #TODO: correct this functions
     @emptyWordErrorWrapper(True)
     def determinize(self) -> None:
-        # Create a new start state and add the old start state to it
-        new_start_state = "i"
-        self.states[new_start_state] = {"start": True, "end": False}
-        self.states[new_start_state].update({letter: [] for letter in self.language})
-        self.states[new_start_state]["€"] = [self.init_state]
-        # Compute ε-closure for the new start state
-        epsilon_closure = self.computeEpsilonClosure([new_start_state])
-        # Initialize the new automaton
-        new_automaton = {"i": {"start": True, "end": self.containsEndState(epsilon_closure)}}
-        for letter in self.language:
-            new_automaton["i"][letter] = self.computeNextState(epsilon_closure, letter)
-        new_states = ["i"]
-        # Add new states to the new automaton
-        while new_states:
-            state = new_states.pop()
-            for letter in self.language:
-                next_state = self.computeNextState(self.computeEpsilonClosure(list(state)), letter)
-                if next_state:
-                    next_state = "".join(sorted(next_state))
-                    if next_state not in new_automaton:
-                        new_automaton[next_state] = {"start": False, "end": self.containsEndState(next_state)}
-                        for letter in self.language:
-                            new_automaton[next_state][letter] = ["".join(sorted(self.computeNextState(next_state, letter)))]
-                        new_states.append(next_state)
-        # Update the current automaton
-        self.states = new_automaton
-        self.init_state = new_start_state
-        self.emptyWordExpression = False
+        print(self.computeEpsilonClosure("1"))
 
     @emptyWordErrorWrapper(True)
     def computeEpsilonClosure(self, states):
@@ -229,6 +208,7 @@ class automata():
             if self.states[state]["end"]:
                 return True
         return False
+    #TODO: End of correct this functions
 
     @emptyWordErrorWrapper(False)
     def recognize(self, word:str) -> bool:
@@ -236,9 +216,33 @@ class automata():
             if word == "":
                 return self.states[state]["end"]
             else:
+                if word[0] not in self.language:
+                    raise Exception("The word contains a letter that is not in the language of the automata")
                 for endState in self.states[state][word[0]]:
                     if recognizeRec(endState, word[1:]):
                         return True
+                return False
+        if self.init_state:
+            return recognizeRec(self.init_state, word)
+        else:
+            init_states = [state for state,properties in self.states.items() if properties["start"]]
+            return any(map(lambda state: recognizeRec(state, word), init_states))
+
+    @emptyWordErrorWrapper(True)
+    def recognize(self, word:str) -> bool: # function to recognize a word with the empty word expression in the automata
+        def recognizeRec(state:str, word:str) -> bool:
+            if word == "":
+                return self.states[state]["end"]
+            else:
+                if word[0] not in self.language:
+                    raise Exception("The word contains a letter that is not in the language of the automata")
+                for endState in self.states[state][word[0]]:
+                    if recognizeRec(endState, word[1:]):
+                        return True
+                if "€" in self.states[state]:
+                    for endState in self.states[state]["€"]:
+                        if recognizeRec(endState, word):
+                            return True
                 return False
         if self.init_state:
             return recognizeRec(self.init_state, word)
@@ -252,7 +256,10 @@ class automata():
         for state,properties in self.states.items():
             line = [state]
             for letter in self.language:
-                linestr = ", ".join(properties[letter])
+                if letter in properties.keys():
+                    linestr = ", ".join(properties[letter])
+                else:
+                    linestr = ""
                 line.append(linestr)
             if properties["start"]:
                 line.append("\u2713")

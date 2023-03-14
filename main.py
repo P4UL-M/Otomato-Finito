@@ -13,6 +13,7 @@ myAutomata = automata(data)
 #     print(err)
 
 myAutomata.determinize()
+#print(myAutomata.recognize('AAAAAAB'))
 #print(myAutomata.isComplete())
 #myAutomata.complete()
 myAutomata.display(1)
