@@ -1,0 +1,49 @@
+{
+    "language": ["A", "B", "C", "D"],
+    "states": {
+        "0": {
+            "D": ["5"],
+            "start": true,
+            "end": false
+        },
+        "1": {
+            "A": ["2"],
+            "start": true,
+            "end": false
+        },
+        "2": {
+            "B": ["3"],
+            "start": false,
+            "end": false
+        },
+        "3": {
+            "C": ["4"],
+            "start": false,
+            "end": false
+        },
+        "4": {
+            "D": ["5"],
+            "start": false,
+            "end": false
+        },
+        "5": {
+            "start": false,
+            "end": true
+        },
+        "6": {
+            "A": ["2"],
+            "start": true,
+            "end": false
+        },
+        "7": {
+            "B": ["3"],
+            "start": true,
+            "end": false
+        },
+        "8": {
+            "C": ["4"],
+            "start": true,
+            "end": false
+        }
+    }
+}
