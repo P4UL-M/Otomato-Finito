@@ -44,8 +44,16 @@ class stateName():
     def __str__(self) -> str:
         return str("".join(sorted(self.name)))
     
+    def __repr__(self) -> str:
+        return str("".join(sorted(self.name)))
+    
     def getPrime(self) -> str:
         return str("".join(sorted(self.name)) + "'")
+    
+    def __add__(self, __o: object):
+        if not isinstance(__o, stateName):
+            return NotImplemented
+        return stateName(*self.name, *__o.name)
 
 class automata():
     def __init__(self, data) -> None:
