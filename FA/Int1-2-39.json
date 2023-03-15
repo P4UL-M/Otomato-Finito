@@ -1,0 +1,28 @@
+{
+    "language": ["A", "B"],
+    "states": {
+        "0": {
+            "A": ["1"],
+            "B": ["2"],
+            "start": true,
+            "end": false
+        },
+        "1": {
+            "A": ["1"],
+            "B": ["2"],
+            "start": true,
+            "end": true
+        },
+        "2": {
+            "A": ["0"],
+            "B": ["1"],
+            "start": false,
+            "end": false
+        },
+        "3": {
+            "A": ["1", "2"],
+            "start": true,
+            "end": false
+        }
+    }
+}
