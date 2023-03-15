@@ -1,18 +1,23 @@
 import json
 from pyflowchart import *
-from myclass import automata
+from myclass import automata, stateName
+from pathlib import Path
+
+path = Path(__file__).parent
 
 # Load the JSON file
-with open('exemple_data_format.json') as f:
+with open(path / 'FA' / "Int1-2-22.json") as f:
     data = json.load(f)
 
 myAutomata = automata(data)
-try:
+myAutomata.display(1)
+if not myAutomata.isStandard():
     myAutomata.standardize()
-except Exception as err:
-    print(err)
-
-myAutomata.determinize()
-print(myAutomata.isComplete())
-myAutomata.complete()
-myAutomata.display()
+if not myAutomata.isDeterministic():
+    myAutomata.determinize()
+if not myAutomata.isComplete():
+    myAutomata.complete()
+myAutomata.display(1)
+print("recognize :",myAutomata.recognize("AAAABBBBBBBBBBBBBBB"))
+#print(myAutomata.isComplete())
+#myAutomata.complete()

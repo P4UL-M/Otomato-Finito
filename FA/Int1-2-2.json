@@ -1,0 +1,10 @@
+{
+    "language" : ["A"],
+    "states": {
+        "0": {
+            "A": ["0"],
+            "start": true,
+            "end": true
+        }
+    }
+}

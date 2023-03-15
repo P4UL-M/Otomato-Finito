@@ -1,0 +1,45 @@
+{
+    "language": ["A"],
+    "states": {
+        "0": {
+            "A": ["0"],
+            "start": false,
+            "end": true
+        },
+        "1": {
+            "A": ["2"],
+            "start": true,
+            "end": false
+        },
+        "2": {
+            "A": ["3"],
+            "start": false,
+            "end": false
+        },
+        "3": {
+            "A": ["4"],
+            "start": false,
+            "end": true
+        },
+        "4": {
+            "A": ["5"],
+            "start": false,
+            "end": true
+        },
+        "5": {
+            "A": ["6"],
+            "start": false,
+            "end": true
+        },
+        "6": {
+            "A": ["7"],
+            "start": false,
+            "end": true
+        },
+        "7": {
+            "A": ["0"],
+            "start": false,
+            "end": true
+        }
+    }
+}
