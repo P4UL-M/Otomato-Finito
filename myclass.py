@@ -1,5 +1,9 @@
 from pyflowchart import *
 from tabulate import tabulate
+from functools import lru_cache
+
+class BadAutomata(Exception):
+    pass
 
 funcs = {}
 # wrapper that choose which two function with the same name to execute depending if the automata have empty word expression or not
@@ -10,7 +14,7 @@ def emptyWordErrorWrapper(emptyWord:bool):
             if args[0].isAsync == emptyWord:
                 return func(*args, **kwargs)
             else:
-                raise Exception(f"This function doesn't work {'without' if emptyWord else 'with'} empty word expression")
+                raise BadAutomata(f"This function doesn't work {'without' if emptyWord else 'with'} empty word expression")
         if func.__name__ not in funcs.keys():
             funcs[func.__name__] = func
             return wrapper2
@@ -19,21 +23,59 @@ def emptyWordErrorWrapper(emptyWord:bool):
             def wrapper3(*args, **kwargs):
                 try:
                     return wrapper2(*args, **kwargs)
-                except Exception as err:
+                except BadAutomata as err:
                     return otherFunc(*args, **kwargs)
             return wrapper3
     return wrapper
 
+class stateName():
+    # a frozenset of strings
+    def __init__(self, *names) -> None:
+        self.name = frozenset(names)
+
+    def __eq__(self, __o: object) -> bool:
+        if not isinstance(__o, stateName):
+            return False
+        return self.name == __o.name
+
+    def __hash__(self) -> int:
+        return hash(self.name)
+    
+    def __str__(self) -> str:
+        return str("".join(sorted(self.name)))
+    
+    def __repr__(self) -> str:
+        return str("".join(sorted(self.name)))
+    
+    def getPrime(self) -> str:
+        return str("".join(sorted(self.name)) + "'")
+    
+    def __add__(self, __o: object):
+        if not isinstance(__o, stateName):
+            return NotImplemented
+        return stateName(*self.name, *__o.name)
+    
+    def __iter__(self):
+        return iter(self.name)
+
+def stateNameSum(*args:stateName):
+    return stateName(*map(str, args))
+
 class automata():
     def __init__(self, data) -> None:
+        # set language
         self.language: list[str] = data["language"]
-        self.states: dict[str, dict[str, list[str]] | bool] = data["states"]
-        self.init_state: str = self.findInitState()
-        # sort states letters
-        for properties in self.states.values():
+        
+        # convert states to frozenset notation
+        temp_states:dict[str, dict[str, list[str]] | bool] = data["states"]
+        # pass each endState to frozenset
+        for state, properties in temp_states.items():
             for letter in self.language:
                 if letter in properties.keys():
-                    properties[letter].sort()
+                    properties[letter] = list(map(lambda x: stateName(x), properties[letter]))
+        # pass each state to frozenset
+        temp_states = {stateName(state): properties for state, properties in temp_states.items()}
+        self.states: dict[stateName, dict[str, list[stateName]] | bool] = temp_states
 
     def findInitState(self) -> str:
         initState = None
@@ -55,18 +97,25 @@ class automata():
                 return True
         return False
 
-    @emptyWordErrorWrapper(False)
+    @property
+    def init_state(self) -> stateName:
+        return self.init_state
+    
+    @init_state.getter
+    def init_state(self) -> stateName:
+        return self.findInitState()
+
     def isStandard(self) -> bool:
         if self.init_state == None:
             return False
         for state, propreties in self.states.items():
             for letter in self.language:
-                for endState in propreties[letter]:
-                    if endState == self.init_state:
-                        return False
+                if letter in propreties.keys():
+                    for endState in propreties[letter]:
+                        if endState == self.init_state:
+                            return False
         return True
 
-    @emptyWordErrorWrapper(False)
     def standardize(self) -> None:
         if self.isStandard():
             raise Exception("Your automata is already standard")
@@ -78,14 +127,14 @@ class automata():
                 if properties["end"]:
                     emptyRecognized = True
                 for letter in self.language:
-                    transition[letter] = properties[letter]
+                    if letter in properties.keys():
+                        transition[letter] = properties[letter]
         state = {
             "start": True,
             "end": emptyRecognized,
+            **transition
         }
-        state.update(transition)
-        self.states["i"] = state
-        self.init_state = "i"
+        self.states[stateName("i")] = state
 
     @emptyWordErrorWrapper(False)
     def isComplete(self) -> bool:
@@ -98,20 +147,20 @@ class automata():
     @emptyWordErrorWrapper(False)
     def complete(self) -> None:
         if self.isComplete() == True:
-            return
+            raise Exception("Your automata is already complete")
         P = {}
         for letter in self.language:
-            P[letter] = ["P"]
+            P[letter] = [stateName("P")]
         p_states = {
             "start": False,
             "end": False,
         }
         P.update(p_states)
-        self.states["P"] = P
+        self.states[stateName("P")] = P
         for properties in self.states.values():
             for letter in self.language:
                 if letter not in properties.keys() or len(properties[letter]) == 0:
-                    properties[letter] = ["P"]
+                    properties[letter] = [stateName("P")]
 
     def isDeterministic(self) -> bool:
         if self.isAsync:
@@ -125,7 +174,7 @@ class automata():
 
     @emptyWordErrorWrapper(False)
     def determinize(self) -> None:
-        def determinizeRec(actual_state:str, new_automata:dict[str, dict[str, list[str]] | bool] = {}, start=False) -> str:
+        def determinizeRec(actual_state:stateName, new_automata:dict[stateName, dict[str, list[stateName]] | bool] = {}, start=False) -> dict[str, list[stateName]] | bool:
             # make list of transitions from actual state
             transitions = {}
             isEnd = False
@@ -141,20 +190,18 @@ class automata():
             join_transitions = {}
             for letter in self.language:
                 if letter not in transitions.keys():
-                    join_transitions[letter] = []
                     continue
-                temp = list(set(transitions[letter]))
-                temp.sort()
+                temp = set(transitions[letter])
                 if len(temp) == 0:
-                    join_transitions[letter] = []
+                    continue
                 else:
-                    join_transitions[letter] = ["".join(temp)]
+                    join_transitions[letter] = [stateNameSum(*temp)]
             # make new states from transitions
             new_states = []
             for letter in self.language:
-                if len(join_transitions[letter]) > 0:
-                    if join_transitions[letter][0] != "":
-                        new_states.append("".join(join_transitions[letter][0]))
+                if letter in join_transitions.keys():
+                        if join_transitions[letter][0] not in new_automata.keys():
+                            new_states.append(join_transitions[letter][0])
             # add new states to automata
             if actual_state not in new_automata.keys():
                 new_automata[actual_state] = {
@@ -163,24 +210,51 @@ class automata():
                 }
                 new_automata[actual_state].update(join_transitions)
             for state in new_states:
-                if state not in new_automata.keys():
-                    determinizeRec(state, new_automata)
+                determinizeRec(state, new_automata)
             return new_automata
         if self.isDeterministic():
             raise Exception("Your automata is already deterministic")
         if self.init_state:
             self.states = determinizeRec(self.init_state, start=True)
         else:
-            init_states = "".join([state for state,properties in self.states.items() if properties["start"]])
+            init_states = stateNameSum([state for state,properties in self.states.items() if properties["start"]])
             self.states = determinizeRec(init_states, start=True)
 
-    #TODO: correct this functions
     @emptyWordErrorWrapper(True)
     def determinize(self) -> None:
-        ...
+        if self.isDeterministic():
+            raise Exception("Your automata is already deterministic")
+        prime_states: dict[stateName, set[stateName]] = {}
+        starting_states = [state for state,properties in self.states.items() if properties["start"]]
+        prime_states[stateName(*[s.getPrime() for s in starting_states])] = self._computeEpsilonClosure(*starting_states)
+        new_automaton = {}
+        isInit = True
+        while prime_states:
+            state, englobed_states = prime_states.popitem()
+            if state in new_automaton.keys():
+                continue
+            new_state = {}
+            for letter in self.language:
+                if letter == "€":
+                    continue
+                next_states:set[stateName] = set()
+                for s in englobed_states:
+                    next_states.update(self._computeNextStates(s, letter))
+                if len(next_states) > 0:
+                    new_prime_state_name = stateName(*[s.getPrime() for s in next_states])
+                    new_state[letter] = [new_prime_state_name]
+                    prime_states[new_prime_state_name] = self._computeEpsilonClosure(*next_states)
+            new_state["start"] = isInit
+            new_state["end"] = any(self.states[s]["end"] for s in englobed_states)
+            isInit = False
+            new_automaton[state] = new_state
+        self.states = new_automaton
+        self.language.remove("€")
 
+    # cache for epsilon closure
     @emptyWordErrorWrapper(True)
-    def computeEpsilonClosure(self, states):
+    @lru_cache(maxsize=None)
+    def _computeEpsilonClosure(self, *states:stateName) -> set[stateName]:
         """Compute the ε-closure of a set of states"""
         epsilon_closure = set(states)
         while True:
@@ -194,7 +268,11 @@ class automata():
             epsilon_closure.update(new_states)
         return epsilon_closure
 
-    #TODO: End of correct this functions
+    def _computeNextStates(self, state, letter) -> set[stateName]:
+        """Compute the next states for a given state and letter"""
+        if letter in self.states[state]:
+            return set(self.states[state][letter])
+        return set()
 
     @emptyWordErrorWrapper(False)
     def recognize(self, word:str) -> bool:
@@ -219,7 +297,7 @@ class automata():
 
     @emptyWordErrorWrapper(True)
     def recognize(self, word:str) -> bool: # function to recognize a word with the empty word expression in the automata
-        def recognizeRec(state:str, word:str) -> bool:
+        def recognizeRec(state:stateName, word:str) -> bool:
             if word == "":
                 return self.states[state]["end"]
             else:
@@ -246,10 +324,10 @@ class automata():
         styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
         table = []
         for state,properties in self.states.items():
-            line = [state]
+            line = [str(state)]
             for letter in self.language:
                 if letter in properties.keys():
-                    linestr = ", ".join(properties[letter])
+                    linestr = ", ".join(map(str,properties[letter]))
                 else:
                     linestr = ""
                 line.append(linestr)
@@ -264,6 +342,7 @@ class automata():
             table.append(line)
         print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
 
+    # TODO: correct the export to work with the new stateName class
     def export(self) -> str:
         if not self.init_state:
             raise Exception(
