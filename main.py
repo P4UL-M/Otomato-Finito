@@ -6,7 +6,7 @@ from pathlib import Path
 path = Path(__file__).parent
 
 # Load the JSON file
-with open(path / 'FA' / "Int1-2-22.json") as f:
+with open(path / 'FA' / "Int1-2-22.json", encoding="utf-8") as f:
     data = json.load(f)
 
 myAutomata = automata(data)
