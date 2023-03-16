@@ -299,6 +299,10 @@ class automata():
     def recognize(self, word:str) -> bool: # function to recognize a word with the empty word expression in the automata
         def recognizeRec(state:stateName, word:str) -> bool:
             if word == "":
+                if "€" in self.states[state]:
+                    for endState in self.states[state]["€"]:
+                        if recognizeRec(endState, word):
+                            return True
                 return self.states[state]["end"]
             else:
                 if word[0] not in self.language:
