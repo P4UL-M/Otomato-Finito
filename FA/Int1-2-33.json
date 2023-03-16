@@ -1,0 +1,72 @@
+{
+    "language": ["A", "B", "C", "€"],
+    "states": {
+        "0": {
+            "€": ["1", "7"],
+            "start": true,
+            "end": false
+        },
+        "1": {
+            "€": ["2", "4"],
+            "start": false,
+            "end": false
+        },
+        "2": {
+            "A": ["3"],
+            "start": false,
+            "end": false
+        },
+        "3": {
+            "€": ["5"],
+            "start": false,
+            "end": false
+        },
+        "4": {
+            "B": ["4"],
+            "€": ["5"],
+            "start": false,
+            "end": false
+        },
+        "5": {
+            "C": ["6"],
+            "start": false,
+            "end": false
+        },
+        "6": {
+            "€": ["12"],
+            "start": false,
+            "end": false
+        },
+        "7": {
+            "€": ["8", "9"],
+            "start": false,
+            "end": false
+        },
+        "8": {
+            "A": ["8"],
+            "€": ["11"],
+            "start": false,
+            "end": false
+        },
+        "9": {
+            "B": ["10"],
+            "start": false,
+            "end": false
+        },
+        "10": {
+            "€": ["11"],
+            "start": false,
+            "end": false
+        },
+        "11": {
+            "C": ["11"],
+            "€": ["12"],
+            "start": false,
+            "end": false
+        },
+        "12": {
+            "start": false,
+            "end": true
+        }
+    }
+}

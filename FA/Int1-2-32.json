@@ -1,0 +1,114 @@
+{
+    "language": ["A", "B", "C", "€"],
+    "states": {
+        "0": {
+            "€": ["1", "10"],
+            "start": true,
+            "end": false
+        },
+        "1": {
+            "€": ["2", "6"],
+            "start": false,
+            "end": false
+        },
+        "2": {
+            "€": ["3", "5"],
+            "start": false,
+            "end": false
+        },
+        "3": {
+            "B": ["4"],
+            "start": false,
+            "end": false
+        },
+        "4": {
+            "€": ["3", "5"],
+            "start": false,
+            "end": false
+        },
+        "5": {
+            "€": ["8"],
+            "start": false,
+            "end": false
+        },
+        "6": {
+            "A": ["7"],
+            "start": false,
+            "end": false
+        },
+        "7": {
+            "€": ["8"],
+            "start": false,
+            "end": false
+        },
+        "8": {
+            "C": ["9"],
+            "start": false,
+            "end": false
+        },
+        "9": {
+            "€": ["21"],
+            "start": false,
+            "end": false
+        },
+        "10": {
+            "€": ["11", "15"],
+            "start": false,
+            "end": false
+        },
+        "11": {
+            "€": ["12", "14"],
+            "start": false,
+            "end": false
+        },
+        "12": {
+            "A": ["13"],
+            "start": false,
+            "end": false
+        },
+        "13": {
+            "€": ["12", "14"],
+            "start": false,
+            "end": false
+        },
+        "14": {
+            "€": ["17"],
+            "start": false,
+            "end": false
+        },
+        "15": {
+            "B": ["16"],
+            "start": false,
+            "end": false
+        },
+        "16": {
+            "€": ["17"],
+            "start": false,
+            "end": false
+        },
+        "17": {
+            "€": ["18", "20"],
+            "start": false,
+            "end": false
+        },
+        "18": {
+            "C": ["19"],
+            "start": false,
+            "end": false
+        },
+        "19": {
+            "€": ["18", "20"],
+            "start": false,
+            "end": false
+        },
+        "20": {
+            "€": ["21"],
+            "start": false,
+            "end": false
+        },
+        "21": {
+            "start": false,
+            "end": true
+        }
+    }
+}
