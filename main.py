@@ -17,6 +17,8 @@ if not myAutomata.isDeterministic():
     myAutomata.determinize()
 if not myAutomata.isComplete():
     myAutomata.complete()
+if not myAutomata.isAsync:
+    myAutomata.complementary()
 myAutomata.display(1)
 print("recognize :",myAutomata.recognize("AAAABBBBBBBBBBBBBBB"))
 #print(myAutomata.isComplete())

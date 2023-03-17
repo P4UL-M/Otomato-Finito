@@ -251,6 +251,13 @@ class automata():
         self.states = new_automaton
         self.language.remove("€")
 
+    @emptyWordErrorWrapper(False)
+    def complementary(self) -> None:
+        if not self.isComplete():
+            self.complete()
+        for properties in self.states.values():
+            properties["end"] = not properties["end"]
+
     # cache for epsilon closure
     @emptyWordErrorWrapper(True)
     @lru_cache(maxsize=None)
