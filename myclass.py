@@ -5,6 +5,9 @@ from functools import lru_cache
 class BadAutomata(Exception):
     pass
 
+class BadAction(Exception):
+    pass
+
 funcs = {}
 # wrapper that choose which two function with the same name to execute depending if the automata have empty word expression or not
 def emptyWordErrorWrapper(emptyWord:bool):
@@ -14,7 +17,7 @@ def emptyWordErrorWrapper(emptyWord:bool):
             if args[0].isAsync == emptyWord:
                 return func(*args, **kwargs)
             else:
-                raise BadAutomata(f"This function doesn't work {'without' if emptyWord else 'with'} empty word expression")
+                raise BadAutomata(f"This function doesn't work {'without' if emptyWord else 'with'} async automata !")
         if func.__name__ not in funcs.keys():
             funcs[func.__name__] = func
             return wrapper2
@@ -118,7 +121,7 @@ class automata():
 
     def standardize(self) -> None:
         if self.isStandard():
-            raise Exception("Your automata is already standard")
+            raise BadAction("Your automata is already standard")
         transition = {}
         emptyRecognized = False
         for state,properties in self.states.items():
@@ -147,7 +150,7 @@ class automata():
     @emptyWordErrorWrapper(False)
     def complete(self) -> None:
         if self.isComplete() == True:
-            raise Exception("Your automata is already complete")
+            raise BadAction("Your automata is already complete")
         P = {}
         for letter in self.language:
             P[letter] = [stateName("P")]
@@ -213,7 +216,7 @@ class automata():
                 determinizeRec(state, new_automata)
             return new_automata
         if self.isDeterministic():
-            raise Exception("Your automata is already deterministic")
+            raise BadAction("Your automata is already deterministic")
         if self.init_state:
             self.states = determinizeRec(self.init_state, start=True)
         else:
@@ -223,7 +226,7 @@ class automata():
     @emptyWordErrorWrapper(True)
     def determinize(self) -> None:
         if self.isDeterministic():
-            raise Exception("Your automata is already deterministic")
+            raise BadAction("Your automata is already deterministic")
         prime_states: dict[stateName, set[stateName]] = {}
         starting_states = [state for state,properties in self.states.items() if properties["start"]]
         prime_states[stateName(*[s.getPrime() for s in starting_states])] = self._computeEpsilonClosure(*starting_states)
@@ -356,7 +359,7 @@ class automata():
     # TODO: correct the export to work with the new stateName class
     def export(self) -> str:
         if not self.init_state:
-            raise Exception(
+            raise BadAction(
                 "Your automata must at least be standard to be export.")
 
         nodes: dict[str, OperationNode] = {}

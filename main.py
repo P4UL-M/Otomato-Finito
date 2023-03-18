@@ -1,75 +1,94 @@
 import json
 from pyflowchart import *
-from myclass import automata, stateName
+from myclass import automata, BadAction, BadAutomata
 from pathlib import Path
-from InquirerPy import inquirer
+from InquirerPy import inquirer, get_style
 from pathlib import Path
-import os
 
 path = Path(__file__).parent
 
 if __name__ == '__main__':
     menu_on = True
-    while menu_on == True :
-
+    while menu_on:
+        folder = Path(path / "FA")
+        files = [*map(lambda x: x.relative_to(folder), filter(lambda x: x.is_file(), folder.rglob("*.txt")))]
         file_chosen = inquirer.fuzzy(
             message="Which file would you like to import :",
-            choices=os.listdir("FA"),
+            choices=files,
             default="Int1-2-",
+            raise_keyboard_interrupt=False,
+            border=True,
         ).execute()
 
-        action = inquirer.select(
-            message="What do you want to do ?",
-            choices=["Displaying FA", "Standardization", "Determinization", "Completion", "Minimization",
-                     "Word recognition", "Complementary language"],
-        ).execute()
-        # confirm = inquirer.confirm(message="Confirm?").execute()
-        # if confirm == True :
         with open(path / 'FA' / file_chosen, encoding="utf-8") as f:
             data = json.load(f)
         myAutomata = automata(data)
 
-        if action == "Displaying FA":
-            myAutomata.display(1)
+        while myAutomata != None:
+            action = inquirer.select(
+                message="What do you want to do ?",
+                choices=["Displaying FA", "Standardization", "Determinization", "Completion", "Minimization",
+                        "Word recognition", "Complementary language","Export to flowchart.js", "Exit"],
+                default="Displaying FA",
+                raise_keyboard_interrupt=False,
+                mandatory=False
+            ).execute()
 
-        elif action == "Standardization":
-            if not myAutomata.isStandard():
-                myAutomata.standardize()
-                print("Standardization completed !")
-                myAutomata.display(1)
-            else:
-                print("The automata is already standard.")
+            if action == None or action == "Exit":
+                menu_on = False
+                break
 
-        elif action == "Determinization":
-            if not myAutomata.isDeterministic():
-                myAutomata.determinize()
-                print("Determinization completed !")
-                myAutomata.display(1)
-            else:
-                print("The automata is already deterministic.")
-
-        elif action == "Completion":
-            if not myAutomata.isComplete():
-                myAutomata.complete()
-                print("Completion completed !")
-                myAutomata.display(1)
-            else:
-                print("The automata is already complete.")
-
-        elif action == "Minimization":
-            pass
-
-        elif action == "Word recognition":
-            print("recognize :",myAutomata.recognize("AAAABBBBBBBBBBBBBBB"))
-
-        elif action == "Complementary language":
-            if not myAutomata.isAsync:
-                myAutomata.complementary()
-                print("Here is the complement automata :")
+            if action == "Displaying FA":
                 myAutomata.display(1)
 
-        menu_on = inquirer.confirm(message="Do you want to continue ?").execute()
+            elif action == "Standardization":
+                try:
+                    myAutomata.standardize()
+                    print("Standardization completed !")
+                    myAutomata.display(1)
+                except BadAction as e:
+                    print(e.args[0])
 
-#print(myAutomata.isComplete())
-#myAutomata.complete()
+            elif action == "Determinization":
+                try:
+                    myAutomata.determinize()
+                    print("Determinization completed !")
+                    myAutomata.display(1)
+                except BadAction as e:
+                    print(e.args[0])
 
+            elif action == "Completion":
+                try:
+                    myAutomata.complete()
+                    print("Completion completed !")
+                    myAutomata.display(1)
+                except BadAction as e:
+                    print(e.args[0])
+                except BadAutomata as e:
+                    print(e.args[0])
+
+            elif action == "Minimization":
+                pass
+
+            elif action == "Word recognition":
+                print("Here is the language of the automata :", ", ".join(l for l in myAutomata.language if l != "€"))
+                promt = inquirer.text(
+                    message="Enter the word you want to recognize :", 
+                    validate=lambda x: all([l in myAutomata.language for l in x])
+                ).execute()
+                print(f"""Your automata {"does" if myAutomata.recognize(promt) else "doesn't" } recognize "{promt}".""")
+
+            elif action == "Complementary language":
+                try:
+                    myAutomata.complementary()
+                    print("Here is the complement automata :")
+                    myAutomata.display(1)
+                except BadAutomata as e:
+                    print(e.args[0])
+
+            elif action == "Export to flowchart.js":
+                print(myAutomata.export())
+
+            if not inquirer.confirm(message="Do you want to continue with this automaton ?").execute():
+                myAutomata = None
+        menu_on = inquirer.confirm(message="Do you want to continue with another automaton ?").execute()
