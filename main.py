@@ -3,7 +3,6 @@ from pyflowchart import *
 from myclass import automata, BadAction, BadAutomata
 from pathlib import Path
 from InquirerPy import inquirer, get_style
-from pathlib import Path
 
 path = Path(__file__).parent
 
