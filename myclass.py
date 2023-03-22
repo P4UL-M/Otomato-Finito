@@ -1,6 +1,7 @@
 from pyflowchart import *
 from tabulate import tabulate
 from functools import lru_cache
+from logger import print
 
 class BadAutomata(Exception):
     pass

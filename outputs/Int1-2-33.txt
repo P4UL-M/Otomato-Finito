@@ -1,0 +1,6 @@
+Int1-2-33.txt
+Your automata is already standard
+Determinization :
+Completion :
+Complementary :
+'automata' object has no attribute 'minimize'

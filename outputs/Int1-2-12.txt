@@ -1,0 +1,6 @@
+Int1-2-12.txt
+Standardization :
+Your automata is already deterministic
+Completion :
+Complementary :
+'automata' object has no attribute 'minimize'
