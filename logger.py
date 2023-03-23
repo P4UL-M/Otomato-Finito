@@ -17,9 +17,11 @@ def print(*args, **kwargs):
     # are present in kwargs
     if var.outfile in var.endfiles:
         with open(var.path / "outputs" / var.outfile, "a") as f:
-            f.write(str(*args) + "\n")
+            sep = kwargs.get("sep", " ")
+            f.write(sep.join(map(str,args)) + "\n")
     else:
         with open(var.path / "outputs" / var.outfile, "w+") as f:
-            f.write(str(*args) + "\n")
+            sep = kwargs.get("sep", " ")
+            f.write(sep.join(map(str,args)) + "\n")
         var.endfiles.append(var.outfile)
     return __builtin__.print(*args, **kwargs)

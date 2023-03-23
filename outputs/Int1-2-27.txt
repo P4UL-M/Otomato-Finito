@@ -1,6 +1,47 @@
 Int1-2-27.txt
+╭─────────┬─────┬─────┬─────────┬───────╮
+│   State │ A   │   B │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       0 │ 0   │   0 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       1 │ 2   │   2 │ ✓       │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       2 │     │   0 │         │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
 Your automata is already standard
 Your automata is already deterministic
 Completion :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 0       │ 0   │ 0   │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 1       │ 2   │ 2   │ ✓       │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 2       │ P   │ 0   │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ P       │ P   │ P   │         │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
 Complementary :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 0       │ 0   │ 0   │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 1       │ 2   │ 2   │ ✓       │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 2       │ P   │ 0   │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ P       │ P   │ P   │         │ ✓     │
+╰─────────┴─────┴─────┴─────────┴───────╯
 'automata' object has no attribute 'minimize'
+The automaton does recognize BBA
+The automaton does recognize BBABABB
+The automaton does recognize ABBBBABBAB
+The automaton does not recognize BABBABBBAA
+The automaton does not recognize AABBA
+The automaton does recognize BB
+The automaton does recognize BBBBABA
+The automaton does recognize BBBBAABAAA
+The automaton does recognize BBABAB
+The automaton does recognize BBAABBBBBB

@@ -1,6 +1,46 @@
 Int1-2-41.txt
+╭─────────┬─────┬─────┬─────────┬───────╮
+│   State │   A │   B │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       0 │   1 │   4 │ ✓       │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       1 │   2 │   3 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       2 │   2 │   3 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       3 │   5 │   5 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       4 │   5 │   5 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       5 │   5 │   5 │         │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
 Your automata is already standard
 Your automata is already deterministic
 Your automata is already complete
 Complementary :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│   State │   A │   B │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       0 │   1 │   4 │ ✓       │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       1 │   2 │   3 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       2 │   2 │   3 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       3 │   5 │   5 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       4 │   5 │   5 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       5 │   5 │   5 │         │ ✓     │
+╰─────────┴─────┴─────┴─────────┴───────╯
 'automata' object has no attribute 'minimize'
+The automaton does not recognize BABBBBAA
+The automaton does not recognize BBAB
+The automaton does not recognize AAAAABABAA
+The automaton does not recognize BAB
+The automaton does not recognize BB
+The automaton does not recognize ABBABAAAAB
+The automaton does not recognize BABA
+The automaton does not recognize BA
+The automaton does not recognize BBBBAAB
+The automaton does not recognize BAABAAAB

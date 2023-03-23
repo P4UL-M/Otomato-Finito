@@ -1,6 +1,57 @@
 Int1-2-7.txt
+╭─────────┬──────┬─────────┬───────╮
+│   State │ A    │ Start   │ End   │
+├─────────┼──────┼─────────┼───────┤
+│       0 │      │         │ ✓     │
+├─────────┼──────┼─────────┼───────┤
+│       1 │ 0, 1 │ ✓       │       │
+╰─────────┴──────┴─────────┴───────╯
 Standardization :
+╭─────────┬──────┬─────────┬───────╮
+│ State   │ A    │ Start   │ End   │
+├─────────┼──────┼─────────┼───────┤
+│ 0       │      │         │ ✓     │
+├─────────┼──────┼─────────┼───────┤
+│ 1       │ 0, 1 │         │       │
+├─────────┼──────┼─────────┼───────┤
+│ i       │ 0, 1 │ ✓       │       │
+╰─────────┴──────┴─────────┴───────╯
 Determinization :
+╭─────────┬─────┬─────────┬───────╮
+│   State │   A │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│       1 │  01 │ ✓       │       │
+├─────────┼─────┼─────────┼───────┤
+│      01 │  01 │         │ ✓     │
+╰─────────┴─────┴─────────┴───────╯
 Completion :
+╭─────────┬──────┬─────────┬───────╮
+│ State   │ A    │ Start   │ End   │
+├─────────┼──────┼─────────┼───────┤
+│ 0       │ P    │         │ ✓     │
+├─────────┼──────┼─────────┼───────┤
+│ 1       │ 0, 1 │ ✓       │       │
+├─────────┼──────┼─────────┼───────┤
+│ P       │ P    │         │       │
+╰─────────┴──────┴─────────┴───────╯
 Complementary :
+╭─────────┬──────┬─────────┬───────╮
+│ State   │ A    │ Start   │ End   │
+├─────────┼──────┼─────────┼───────┤
+│ 0       │ P    │         │       │
+├─────────┼──────┼─────────┼───────┤
+│ 1       │ 0, 1 │ ✓       │ ✓     │
+├─────────┼──────┼─────────┼───────┤
+│ P       │ P    │         │ ✓     │
+╰─────────┴──────┴─────────┴───────╯
 'automata' object has no attribute 'minimize'
+The automaton does recognize AAAAA
+The automaton does recognize AAAAAA
+The automaton does recognize AAAA
+The automaton does recognize AAAA
+The automaton does recognize AAAAAAAAAA
+The automaton does recognize AAAAAAA
+The automaton does recognize AAAA
+The automaton does recognize AAAAAAAAA
+The automaton does recognize AA
+The automaton does recognize AAA
