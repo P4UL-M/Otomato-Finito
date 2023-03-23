@@ -3,6 +3,7 @@ import pathlib
 import json
 import copy
 from logger import print, var
+import random
 
 path = pathlib.Path(__file__).parent
 
@@ -53,3 +54,11 @@ if __name__ == '__main__':
             automaton.display(1)
         except Exception as e:
             print(e.args[0])
+        # try random strings recognition
+        automaton = automata(copy.deepcopy(data))
+        if "€" in automaton.language:
+            automaton.determinize()
+        for i in range(10):
+            word = "".join([random.choice(automaton.language) for i in range(random.randint(1, 10))])
+            print("The automaton", "does" if automaton.recognize(word) else "does not", "recognize", word)
+            

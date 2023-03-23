@@ -1,6 +1,41 @@
 Int1-2-4.txt
+╭─────────┬─────┬─────────┬───────╮
+│   State │ A   │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│       0 │ 1   │ ✓       │       │
+├─────────┼─────┼─────────┼───────┤
+│       1 │     │         │       │
+╰─────────┴─────┴─────────┴───────╯
 Your automata is already standard
 Your automata is already deterministic
 Completion :
+╭─────────┬─────┬─────────┬───────╮
+│ State   │ A   │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│ 0       │ 1   │ ✓       │       │
+├─────────┼─────┼─────────┼───────┤
+│ 1       │ P   │         │       │
+├─────────┼─────┼─────────┼───────┤
+│ P       │ P   │         │       │
+╰─────────┴─────┴─────────┴───────╯
 Complementary :
+╭─────────┬─────┬─────────┬───────╮
+│ State   │ A   │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│ 0       │ 1   │ ✓       │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ 1       │ P   │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ P       │ P   │         │ ✓     │
+╰─────────┴─────┴─────────┴───────╯
 'automata' object has no attribute 'minimize'
+The automaton does not recognize AAAAAAA
+The automaton does not recognize AA
+The automaton does not recognize A
+The automaton does not recognize AAAAA
+The automaton does not recognize AAAA
+The automaton does not recognize AAAAAA
+The automaton does not recognize A
+The automaton does not recognize AAAAAAA
+The automaton does not recognize A
+The automaton does not recognize AA

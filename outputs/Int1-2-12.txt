@@ -1,6 +1,50 @@
 Int1-2-12.txt
+╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
+│   State │ A   │ B   │ C   │ D   │ Start   │ End   │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│       0 │     │ 0   │     │ 1   │         │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│       1 │ 1   │     │ 0   │     │ ✓       │ ✓     │
+╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
 Standardization :
+╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ C   │ D   │ Start   │ End   │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ 0       │     │ 0   │     │ 1   │         │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ 1       │ 1   │     │ 0   │     │         │ ✓     │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ i       │ 1   │     │ 0   │     │ ✓       │ ✓     │
+╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
 Your automata is already deterministic
 Completion :
+╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ C   │ D   │ Start   │ End   │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ 0       │ P   │ 0   │ P   │ 1   │         │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ 1       │ 1   │ P   │ 0   │ P   │ ✓       │ ✓     │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ P       │ P   │ P   │ P   │ P   │         │       │
+╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
 Complementary :
+╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ C   │ D   │ Start   │ End   │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ 0       │ P   │ 0   │ P   │ 1   │         │ ✓     │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ 1       │ 1   │ P   │ 0   │ P   │ ✓       │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ P       │ P   │ P   │ P   │ P   │         │ ✓     │
+╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
 'automata' object has no attribute 'minimize'
+The automaton does not recognize BD
+The automaton does not recognize AABCABDAB
+The automaton does not recognize DDBABABC
+The automaton does not recognize DDAC
+The automaton does not recognize CCDBBDCCCC
+The automaton does not recognize ABA
+The automaton does not recognize BCBDCDCBAA
+The automaton does not recognize C
+The automaton does not recognize BBC
+The automaton does not recognize ADACCB

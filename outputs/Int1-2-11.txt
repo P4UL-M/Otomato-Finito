@@ -1,6 +1,51 @@
 Int1-2-11.txt
+╭─────────┬─────┬─────┬─────────┬───────╮
+│   State │   A │   B │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       0 │   2 │   3 │ ✓       │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       1 │   3 │   3 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       2 │   1 │   0 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       3 │   3 │   3 │         │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
 Standardization :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │   A │   B │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 0       │   2 │   3 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 1       │   3 │   3 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 2       │   1 │   0 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 3       │   3 │   3 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ i       │   2 │   3 │ ✓       │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
 Your automata is already deterministic
 Your automata is already complete
 Complementary :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│   State │   A │   B │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       0 │   2 │   3 │ ✓       │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       1 │   3 │   3 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       2 │   1 │   0 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       3 │   3 │   3 │         │ ✓     │
+╰─────────┴─────┴─────┴─────────┴───────╯
 'automata' object has no attribute 'minimize'
+The automaton does not recognize BBB
+The automaton does not recognize AABBAAAA
+The automaton does not recognize AABBBAB
+The automaton does not recognize BBAAABBABA
+The automaton does not recognize AABBAB
+The automaton does not recognize AAAAABAAAB
+The automaton does not recognize BAABBA
+The automaton does not recognize AB
+The automaton does not recognize BABAAABAAB
+The automaton does not recognize BABBBAABA

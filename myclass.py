@@ -221,7 +221,7 @@ class automata():
         if self.init_state:
             self.states = determinizeRec(self.init_state, start=True)
         else:
-            init_states = stateNameSum([state for state,properties in self.states.items() if properties["start"]])
+            init_states = stateNameSum(*[state for state,properties in self.states.items() if properties["start"]])
             self.states = determinizeRec(init_states, start=True)
 
     @emptyWordErrorWrapper(True)

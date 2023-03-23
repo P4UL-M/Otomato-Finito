@@ -1,6 +1,34 @@
 Int1-2-19.txt
+╭─────────┬─────┬─────────┬───────╮
+│   State │   A │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│       0 │   0 │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│       1 │   2 │ ✓       │       │
+├─────────┼─────┼─────────┼───────┤
+│       2 │   0 │         │       │
+╰─────────┴─────┴─────────┴───────╯
 Your automata is already standard
 Your automata is already deterministic
 Your automata is already complete
 Complementary :
+╭─────────┬─────┬─────────┬───────╮
+│   State │   A │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│       0 │   0 │         │       │
+├─────────┼─────┼─────────┼───────┤
+│       1 │   2 │ ✓       │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│       2 │   0 │         │ ✓     │
+╰─────────┴─────┴─────────┴───────╯
 'automata' object has no attribute 'minimize'
+The automaton does recognize AAAAAAAA
+The automaton does not recognize A
+The automaton does recognize AA
+The automaton does recognize AAA
+The automaton does recognize AAAAAAAAA
+The automaton does recognize AA
+The automaton does recognize AA
+The automaton does recognize AAAAAAAA
+The automaton does recognize AAAAAAAAAA
+The automaton does recognize AAAAAAA
