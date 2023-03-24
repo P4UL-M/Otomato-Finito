@@ -142,7 +142,12 @@ if __name__ == '__main__':
                     print(e.args[0])
 
             elif action == "Export to flowchart.js":
-                print(myAutomata.export())
+                try:
+                    print(myAutomata.export())
+                except BadAutomata as e:
+                    print(e.args[0])
+                except BadAction as e:
+                    print(e.args[0])
 
             if not inquirer.confirm(message="Do you want to continue with this automaton ?", raise_keyboard_interrupt=False, mandatory=False).execute(): # To chose if we want to continue with the modified automaton
                 myAutomata = None

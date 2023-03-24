@@ -1,4 +1,4 @@
-Int1-2-46.txt
+Int1-2-45.txt
 ╭─────────┬────────┬────────┬────────┬─────────┬───────╮
 │   State │ A      │ B      │ C      │ Start   │ End   │
 ├─────────┼────────┼────────┼────────┼─────────┼───────┤
@@ -236,13 +236,13 @@ Complementary :
 │ 48P           │ 23P           │ 8P          │ 9P           │         │ ✓     │
 ╰───────────────┴───────────────┴─────────────┴──────────────┴─────────┴───────╯
 The automaton is already minimal!
-The automaton does not recognize A
-The automaton does not recognize AACCBAB
-The automaton does not recognize CCAACB
-The automaton does not recognize BABACCBACC
-The automaton does not recognize BBBBCCBABA
-The automaton does not recognize ACBAACB
-The automaton does not recognize A
-The automaton does not recognize BC
-The automaton does not recognize ABBBCBCCB
-The automaton does not recognize CBBBC
+The automaton does not recognize CCB
+The automaton does not recognize BBACB
+The automaton does not recognize CBCCCA
+The automaton does not recognize ABCC
+The automaton does not recognize CCAACACCBC
+The automaton does not recognize ABBCBBCBB
+The automaton does not recognize BAAA
+The automaton does not recognize BABAC
+The automaton does not recognize CABCACCCCC
+The automaton does not recognize CCACCB

@@ -527,6 +527,7 @@ class Automata():
             table.append(line)
         print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
 
+    @emptyWordErrorWrapper(False)
     def export(self) -> str:
         """Export the automaton as a flowchart"""
         if not self.isDeterministic():

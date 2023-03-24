@@ -35,13 +35,13 @@ Complementary :
 │ P       │ P   │ P   │         │ ✓     │
 ╰─────────┴─────┴─────┴─────────┴───────╯
 The automaton is already minimal!
-The automaton does recognize ABABAA
-The automaton does recognize BBAB
-The automaton does recognize BBA
-The automaton does recognize BBAABBBB
-The automaton does not recognize AAABABAB
-The automaton does recognize BBBA
-The automaton does recognize BB
-The automaton does not recognize A
-The automaton does not recognize AAAAABBAB
-The automaton does not recognize BABBBAB
+The automaton does not recognize B
+The automaton does not recognize BABBABAAA
+The automaton does not recognize AA
+The automaton does recognize ABAAA
+The automaton does recognize ABBBB
+The automaton does recognize ABAAABABAA
+The automaton does not recognize BABBAAB
+The automaton does recognize BBB
+The automaton does recognize BBBB
+The automaton does recognize BBABBBABB

@@ -10,6 +10,7 @@ path = pathlib.Path(__file__).parent
 if __name__ == '__main__':
     # set debug mode
     Settings.debug = True
+    Settings.verbose = True
     # set the output file
     folder = pathlib.Path(path / "FA")
     # get all the files in the folder
