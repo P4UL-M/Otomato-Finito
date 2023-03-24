@@ -12,7 +12,6 @@ from art import *
 from logger import Settings, print
 
 
-
 path = Path(__file__).parent
 
 if __name__ == '__main__':
