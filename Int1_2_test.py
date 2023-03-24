@@ -1,8 +1,8 @@
-from tool import * 
+from Int1_2_tool import * 
 import pathlib
 import json
 import copy
-from logger import print, Settings
+from Int1_2_logger import print, Settings
 import random
 
 path = pathlib.Path(__file__).parent

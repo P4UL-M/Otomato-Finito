@@ -5,11 +5,11 @@ This file contains the main function for the execution of the program.
 """
 import json
 from pyflowchart import *
-from tool import Automata, BadAction, BadAutomata
+from Int1_2_tool import Automata, BadAction, BadAutomata
 from pathlib import Path
 from InquirerPy import inquirer, get_style
 from art import *
-from logger import Settings, print
+from Int1_2_logger import Settings, print
 
 
 path = Path(__file__).parent

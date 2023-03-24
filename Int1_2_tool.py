@@ -6,7 +6,7 @@ This files contains the class automata and all the functions that are used to ma
 from pyflowchart import *
 from tabulate import tabulate
 from functools import lru_cache
-from logger import print, Settings
+from Int1_2_logger import print, Settings
 
 
 class BadAutomata(Exception): # Exception for async automata in functions that don't work with them
@@ -232,7 +232,7 @@ class Automata():
                     if statepart in state:
                         for letter in self.language:
                             if letter in properties.keys():
-                                transitions[letter] = transitions.get(letter, []) + properties[letter]
+                                transitions[letter] = transitions.get(letter, []) + properties[letter] # append new arrival states to the list or create a new list
                         if properties["end"]:
                             isEnd = True
             # compact transitions
@@ -251,15 +251,16 @@ class Automata():
                 if letter in join_transitions.keys():
                         if join_transitions[letter][0] not in new_automata.keys():
                             new_states.append(join_transitions[letter][0])
-            # add new states to automata
+            # add actual state to automata
             if actual_state not in new_automata.keys():
                 new_automata[actual_state] = {
                     "start": start,
                     "end": isEnd,
                 }
                 new_automata[actual_state].update(join_transitions)
+            # repeat the operation for all new states
             for state in new_states:
-                determinizeRec(state, new_automata) # recursive call for new states
+                determinizeRec(state, new_automata)
             return new_automata
         if self.isDeterministic():
             raise BadAction("Your automata is already deterministic")

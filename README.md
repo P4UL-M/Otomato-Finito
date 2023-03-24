@@ -8,7 +8,7 @@ You can install Otomato-Finito's dependencies by running the following command:
 
 ## Usage
 To run Otomato-Finito, run the following command:
-```python main.py```
+```python Int1_2_main.py```
 
 ### Creating a FSM
 You can create a FSM by adding a new file in the ``FA`` folder.
