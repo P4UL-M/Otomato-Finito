@@ -1,3 +1,8 @@
+"""
+Ôtomato Finito
+CARDONA Quentin, HATOUM Jade, LOONES Axel, MAIRESSE Paul, MALLÉUS Soizic
+This file contains the main function for the execution of the program.
+"""
 import json
 from pyflowchart import *
 from myclass import automata, BadAction, BadAutomata
@@ -10,11 +15,12 @@ path = Path(__file__).parent
 
 if __name__ == '__main__':
     menu_on = True
-    while menu_on:
+    while menu_on: # Menu loop
         folder = Path(path / "FA")
         files = [*map(lambda x: x.relative_to(folder), filter(lambda x: x.is_file(), folder.rglob("*.txt")))]
+        # This function lists the files in the folder "FA" which contains all the automata files
         file_chosen = inquirer.fuzzy(
-            message="Which file would you like to import :",
+            message="Which file would you like to import :", # To chose the file to work on
             choices=files,
             default="Int1-2-",
             raise_keyboard_interrupt=False,
@@ -27,7 +33,7 @@ if __name__ == '__main__':
 
         while myAutomata != None:
             action = inquirer.select(
-                message="What do you want to do ?",
+                message="What do you want to do ?", # To chose the action to do
                 choices=["Displaying FA", "Standardization", "Determinization", "Completion", "Minimization",
                         "Word recognition", "Complementary language","Export to flowchart.js", "Exit"],
                 default="Displaying FA",
@@ -97,6 +103,6 @@ if __name__ == '__main__':
             elif action == "Export to flowchart.js":
                 print(myAutomata.export())
 
-            if not inquirer.confirm(message="Do you want to continue with this automaton ?").execute():
+            if not inquirer.confirm(message="Do you want to continue with this automaton ?").execute(): # To chose if we want to continue with the modified automaton
                 myAutomata = None
         menu_on = inquirer.confirm(message="Do you want to continue with another automaton ?").execute()

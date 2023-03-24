@@ -1,17 +1,23 @@
+"""
+Ôtomato Finito
+CARDONA Quentin, HATOUM Jade, LOONES Axel, MAIRESSE Paul, MALLÉUS Soizic
+This files contains the class automata and all the functions that are used to manipulate it.
+"""
 from pyflowchart import *
 from tabulate import tabulate
 from functools import lru_cache
 from logger import print
 
 
-class BadAutomata(Exception):
+class BadAutomata(Exception): # Exception for async automata in functions that don't work with them
     pass
 
-class BadAction(Exception):
+class BadAction(Exception): # Exception for actions that can't be done on the automata
     pass
 
 funcs = {}
-# wrapper that choose which two function with the same name to execute depending if the automata have empty word expression or not
+# wrapper that chooses which two functions with the same name to execute depending if the automata have empty word expression or not
+# display error if function doesn't work with async automata
 def emptyWordErrorWrapper(emptyWord:bool):
     def wrapper(func):
         global funcs
@@ -34,7 +40,7 @@ def emptyWordErrorWrapper(emptyWord:bool):
     return wrapper
 
 class stateName():
-    # a frozenset of strings
+    # a frozenset of strings to manipulate easily grouped states with all default functions to facilitate the use of stateName
     def __init__(self, *names) -> None:
         self.name = frozenset(names)
 
@@ -64,9 +70,11 @@ class stateName():
         return iter(self.name)
 
 def stateNameSum(*args:stateName):
+    # To sum a list of stateName
     return stateName(*map(str, args))
 
 class automata():
+    # class that contains all the functions to manipulate automata
     def __init__(self, data) -> None:
         # set language
         self.language: list[str] = data["language"]
@@ -83,6 +91,7 @@ class automata():
         self.states: dict[stateName, dict[str, list[stateName]] | bool] = temp_states
 
     def findInitState(self) -> str:
+        # find the initial state and returns none if there is more than one
         initState = None
         for state, properties in self.states.items():
             if properties["start"] and initState == None:
@@ -92,6 +101,7 @@ class automata():
         return initState
     
     def findFinalStates(self) -> set[stateName]:
+        # find all the final states
         FinalStates = set()
         for state, properties in self.states.items():
             if properties["end"]:
@@ -104,6 +114,7 @@ class automata():
 
     @isAsync.getter
     def isAsync(self) -> bool:
+        # check if the automata is async
         for letter in self.language:
             if letter == "€":
                 return True
@@ -118,6 +129,7 @@ class automata():
         return self.findInitState()
 
     def isStandard(self) -> bool:
+        # check if the automata is standard
         if self.init_state == None:
             return False
         for state, propreties in self.states.items():
@@ -129,6 +141,7 @@ class automata():
         return True
 
     def standardize(self) -> None:
+        # standardize the automata if not already standard
         if self.isStandard():
             raise BadAction("Your automata is already standard")
         transition = {}
@@ -150,6 +163,7 @@ class automata():
 
     @emptyWordErrorWrapper(False)
     def isComplete(self) -> bool:
+        # check if the automata is complete
         for states in self.states.values():
             for letter in self.language:
                 if letter not in states.keys() or len(states[letter]) == 0:
@@ -158,6 +172,7 @@ class automata():
     
     @emptyWordErrorWrapper(False)
     def complete(self) -> None:
+        # complete the automata  for not async automata if not already complete
         if self.isComplete() == True:
             raise BadAction("Your automata is already complete")
         P = {}
@@ -175,6 +190,7 @@ class automata():
                     properties[letter] = [stateName("P")]
 
     def isDeterministic(self) -> bool:
+        # check if the automata is deterministic
         if self.isAsync:
             return False
         if self.init_state == None:
@@ -188,6 +204,7 @@ class automata():
 
     @emptyWordErrorWrapper(False)
     def determinize(self) -> None:
+        # determinize the automata for not async automata if not already deterministic
         def determinizeRec(actual_state:stateName, new_automata:dict[stateName, dict[str, list[stateName]] | bool] = {}, start=False) -> dict[str, list[stateName]] | bool:
             # make list of transitions from actual state
             transitions = {}
@@ -236,9 +253,10 @@ class automata():
 
     @emptyWordErrorWrapper(True)
     def determinize(self) -> None:
+        # determinize the automata for async automata if not already deterministic
         if self.isDeterministic():
             raise BadAction("Your automata is already deterministic")
-        prime_states: dict[stateName, set[stateName]] = {}
+        prime_states: dict[stateName, set[stateName]] = {} # prime states are the epsilon closure of the states
         starting_states = [state for state,properties in self.states.items() if properties["start"]]
         prime_states[stateName(*[s.getPrime() for s in starting_states])] = self._computeEpsilonClosure(*starting_states)
         new_automaton = {}
@@ -283,7 +301,7 @@ class automata():
         if not self.isComplete():
             condition += ["complete"]
         if condition:
-            raise BadAutomata(f"Please { ' and '.join(map(str,condition)) } the automaton before minimizing it!")
+            raise BadAction(f"Please { ' and '.join(map(str,condition)) } the automaton before minimizing it!")
         
         # construct the initial partition (Θ0 = {F, NF})
         F = self.findFinalStates()# final states
@@ -334,13 +352,15 @@ class automata():
                         
                         table1 = tabulate(table, headers = ["State"]+self.language, tablefmt="rounded_grid")
                         table2 = tabulate(partitionTable, headers = self.language, tablefmt="rounded_grid")
+
                         # print title in bold, red and underlined
                         print(f" \033[1m\033[4m\033[31mIteration θ {i} :\033[0m")
                         print(tabulate( [ [key , ", ".join(map(str,val))] for key,val in groupNames.items() ] ,headers = ['Group names','States contained'],tablefmt="rounded_grid"),end="\n")
                         print(tabulate([[table1, table2]],headers = ['Original',f'Under θ {i}'],tablefmt="rounded_grid"),end="\n\n\n")
+                        # to print the tables of the groups in the partition and the corresponding transition table
                 
                     currentSubgroups: list[list[stateName]] = []
-                    for state, transtitions in partitionStates.items():
+                    for state, transtitions in partitionStates.items(): # this loop is to group the states in the current group
                         if len(currentSubgroups) == 0:
                             currentSubgroups.append([state])
                             continue
@@ -368,8 +388,6 @@ class automata():
 
             i += 1
             
-            #TODO simplify and remove duplicate patterns
-            #TODO associate start/end to each state in final partition
         new_automaton = {}
         for group in θcurrent:
             new_state = {}
@@ -410,6 +428,7 @@ class automata():
 
     @emptyWordErrorWrapper(False)
     def recognize(self, word:str) -> bool:
+        """Recognize a word with the automaton if it is not async"""
         def recognizeRec(state:str, word:str) -> bool:
             if word == "":
                 return self.states[state]["end"]
@@ -459,6 +478,7 @@ class automata():
             return any(map(lambda state: recognizeRec(state, word), init_states))
 
     def display(self, style=0) -> None:
+        """Display the automaton in a table with different styles"""
         styles = ["fancy_grid", "rounded_grid", "mixed_grid"]
         table = []
         for state,properties in self.states.items():
@@ -480,11 +500,10 @@ class automata():
             table.append(line)
         print(tabulate(table,headers=["State"]+self.language + ["Start", "End"],tablefmt=styles[style]))
 
-    # TODO: correct the export to work with the new stateName class
     def export(self) -> str:
+        """Export the automaton as a flowchart"""
         if not self.init_state:
-            raise BadAction(
-                "Your automata must at least be standard to be export.")
+            raise BadAction("Your automata must at least be standard to be export.")
 
         nodes: dict[str, OperationNode] = {}
 
