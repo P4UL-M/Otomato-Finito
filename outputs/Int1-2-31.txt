@@ -75,21 +75,21 @@ Minimization :
 ╭─────────┬─────┬─────┬─────────┬───────╮
 │ State   │ A   │ B   │ Start   │ End   │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ (0)     │ (2) │ (1) │ ✓       │ ✓     │
+│ (0)     │ (2) │ (0) │         │ ✓     │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ (1)     │ (3) │ (1) │         │ ✓     │
+│ (1)     │ (3) │ (0) │ ✓       │ ✓     │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ (2)     │ (1) │ (0) │         │       │
+│ (2)     │ (2) │ (2) │         │       │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ (3)     │ (3) │ (3) │         │       │
+│ (3)     │ (0) │ (1) │         │       │
 ╰─────────┴─────┴─────┴─────────┴───────╯
-The automaton does recognize BBB
-The automaton does recognize ABAA
-The automaton does recognize AB
-The automaton does not recognize ABAAA
-The automaton does not recognize AABBBAABA
-The automaton does not recognize ABAABABB
+The automaton does not recognize ABABABBABB
+The automaton does not recognize BBBBBA
+The automaton does not recognize BBABAAAAAB
 The automaton does recognize B
-The automaton does not recognize AABABABBBB
-The automaton does not recognize AABBA
+The automaton does not recognize BBAA
 The automaton does not recognize A
+The automaton does not recognize A
+The automaton does not recognize AABA
+The automaton does not recognize BBA
+The automaton does not recognize BAAABBB

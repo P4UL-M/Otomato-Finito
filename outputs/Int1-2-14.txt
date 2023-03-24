@@ -54,13 +54,13 @@ Complementary :
 │ P       │ P   │ P   │ P   │ P   │         │ ✓     │
 ╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
 The automaton is already minimal!
-The automaton does recognize DD
-The automaton does not recognize DCDCCACB
-The automaton does not recognize ACDBDBACA
-The automaton does not recognize DDBD
-The automaton does not recognize DCBAAB
-The automaton does not recognize ACAACBAD
-The automaton does not recognize DCBBCDAB
-The automaton does not recognize CBAB
-The automaton does recognize D
-The automaton does not recognize BACACD
+The automaton does not recognize BAACBCAB
+The automaton does not recognize ACBAABA
+The automaton does not recognize DBCCDAADCA
+The automaton does not recognize CADBDABDC
+The automaton does recognize AAD
+The automaton does not recognize BAACBAACBB
+The automaton does not recognize B
+The automaton does not recognize BDBA
+The automaton does not recognize DBDCDDD
+The automaton does not recognize ADCDCABBB

@@ -66,7 +66,8 @@ if __name__ == '__main__':
             print(e.args[0])
         # try random strings recognition
         determinized = Automata(copy.deepcopy(data)) # determinized automaton to optimize recognition speed
-        determinized.determinize()
+        if not determinized.isDeterministic():
+            determinized.determinize()
         for i in range(10):
             word = "".join([random.choice(determinized.language) for i in range(random.randint(1, 10))])
             print("The automaton", "does" if determinized.recognize(word) else "does not", "recognize", word)

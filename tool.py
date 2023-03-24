@@ -43,6 +43,11 @@ class stateName():
     # a frozenset of strings to manipulate easily grouped states with all default functions to facilitate the use of stateName
     def __init__(self, *names) -> None:
         self.name = frozenset(names)
+        self.sep = ""
+        for name in self.name:
+            if len(name) > 1 and "'" not in name:
+                self.sep = "."
+                break
 
     # equality function
     def __eq__(self, __o: object) -> bool:
@@ -56,11 +61,11 @@ class stateName():
     
     # string representation for print
     def __str__(self) -> str:
-        return str("".join(sorted(self.name)))
+        return str(self.sep.join(sorted(self.name)))
     
     # string representation for debug
     def __repr__(self) -> str:
-        return str("".join(sorted(self.name)))
+        return str(self.sep.join(sorted(self.name)))
     
     # string representation for prime state
     def getPrime(self) -> str:

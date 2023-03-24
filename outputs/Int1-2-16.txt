@@ -77,13 +77,13 @@ Complementary :
 │ 04P     │ P   │ P   │ P   │ 04P │         │       │
 ╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
 The automaton is already minimal!
-The automaton does not recognize ACD
-The automaton does not recognize ACAABBCA
-The automaton does not recognize DDDCBBADC
-The automaton does not recognize BBBBADD
-The automaton does not recognize BBC
-The automaton does not recognize BDACDCCCD
-The automaton does not recognize BBA
-The automaton does not recognize ABBABC
-The automaton does not recognize BDADACC
+The automaton does not recognize BCDCAABABB
+The automaton does not recognize CCB
+The automaton does not recognize ACBBD
+The automaton does not recognize DCCCBCBDB
 The automaton does not recognize C
+The automaton does not recognize CDACDA
+The automaton does not recognize CCD
+The automaton does not recognize BAB
+The automaton does not recognize BDCBBDCDD
+The automaton does not recognize DDABAADDCD

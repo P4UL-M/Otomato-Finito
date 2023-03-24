@@ -1,0 +1,122 @@
+{
+    "language": ["A", "B", "C"],
+    "states": {
+        "0": {
+            "A": ["1", "10"],
+            "start": true,
+            "end": false
+        },
+        "1": {
+            "B": ["2", "6"],
+            "start": false,
+            "end": false
+        },
+        "2": {
+            "A": ["3", "5"],
+            "start": false,
+            "end": false
+        },
+        "3": {
+            "A": ["3", "9"],
+            "B": ["4"],
+            "start": false,
+            "end": false
+        },
+        "4": {
+            "A": ["3", "2"],
+            "start": false,
+            "end": false
+        },
+        "5": {
+            "A": ["8"],
+            "start": false,
+            "end": false
+        },
+        "6": {
+            "A": ["8"],
+            "A": ["7"],
+            "start": false,
+            "end": false
+        },
+        "7": {
+            "B": ["8"],
+            "start": false,
+            "end": false
+        },
+        "8": {
+            "B": ["8"],
+            "C": ["9"],
+            "start": false,
+            "end": false
+        },
+        "9": {
+            "B": ["20", "13"],
+            "C": ["21"],
+            "start": false,
+            "end": false
+        },
+        "10": {
+            "A": ["11", "15"],
+            "start": false,
+            "end": false
+        },
+        "11": {
+            "B": ["12", "14"],
+            "start": false,
+            "end": false
+        },
+        "12": {
+            "C": ["12", "14"],
+            "A": ["13"],
+            "start": false,
+            "end": false
+        },
+        "13": {
+            "C": ["12", "14"],
+            "start": false,
+            "end": false
+        },
+        "14": {
+            "A": ["17"],
+            "start": false,
+            "end": false
+        },
+        "15": {
+            "B": ["16"],
+            "start": false,
+            "end": false
+        },
+        "16": {
+            "B": ["16"],
+            "C": ["17"],
+            "start": false,
+            "end": false
+        },
+        "17": {
+            "A": ["18", "20"],
+            "start": false,
+            "end": false
+        },
+        "18": {
+            "C": ["19"],
+            "start": false,
+            "end": false
+        },
+        "19": {
+            "B": ["21"],
+            "A": ["18", "20"],
+            "start": false,
+            "end": false
+        },
+        "20": {
+            "C": ["19"],
+            "B": ["21"],
+            "start": false,
+            "end": false
+        },
+        "21": {
+            "start": false,
+            "end": true
+        }
+    }
+}

@@ -48,13 +48,13 @@ Minimization :
 ├─────────┼─────┼─────┼─────────┼───────┤
 │ (2)     │ (0) │ (1) │ ✓       │       │
 ╰─────────┴─────┴─────┴─────────┴───────╯
-The automaton does not recognize AAB
+The automaton does not recognize ABBBA
+The automaton does not recognize AAAABBAAAA
 The automaton does not recognize B
-The automaton does not recognize BAAA
-The automaton does not recognize AABBABBB
+The automaton does not recognize BBABABBBA
+The automaton does not recognize AAABABA
+The automaton does not recognize AAA
+The automaton does not recognize BBA
+The automaton does not recognize BBBBBBABB
+The automaton does not recognize BAB
 The automaton does not recognize BA
-The automaton does not recognize AABABAABAA
-The automaton does not recognize BAAB
-The automaton does not recognize BAAAAAB
-The automaton does not recognize BAABBAABAB
-The automaton does recognize A
