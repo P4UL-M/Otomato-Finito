@@ -33,7 +33,7 @@ if __name__ == '__main__':
         if "Debug mode" in promt:
             # enter path to debug file
             filepath = inquirer.filepath(
-                message="Enter the path to the debug file (pass if you want to create a new one))",
+                message="Enter the path to the debug file (pass if you want to create a new one)",
                 validate=lambda x: Path(x).is_file() and Path(x).suffix == ".txt",
                 raise_keyboard_interrupt=False,
                 mandatory=False,
