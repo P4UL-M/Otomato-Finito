@@ -28,14 +28,23 @@ Complementary :
 ├─────────┼─────┼─────────┼───────┤
 │ P       │ P   │         │ ✓     │
 ╰─────────┴─────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does not recognize AAAAAAAA
-The automaton does not recognize AAAAAAAA
-The automaton does not recognize AAAAAAAA
+Minimization :
+╭─────────┬─────┬─────────┬───────╮
+│ State   │ A   │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│ (0)     │ (2) │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ (1)     │ (0) │ ✓       │       │
+├─────────┼─────┼─────────┼───────┤
+│ (2)     │ (2) │         │       │
+╰─────────┴─────┴─────────┴───────╯
 The automaton does not recognize AAA
-The automaton does not recognize AAAA
-The automaton does not recognize AAAAAAAA
-The automaton does not recognize AAA
-The automaton does not recognize AAAAAAAA
-The automaton does not recognize AAAA
+The automaton does not recognize AAAAAAAAA
+The automaton does not recognize AA
+The automaton does not recognize AAAAAA
 The automaton does not recognize AAAAA
+The automaton does not recognize AAAAAAAAAA
+The automaton does not recognize AAA
+The automaton does not recognize AAAAAAAAAA
+The automaton does not recognize AAAAAAAAA
+The automaton does not recognize AAAAAAA

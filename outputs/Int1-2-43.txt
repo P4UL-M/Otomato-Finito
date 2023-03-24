@@ -48,22 +48,37 @@ Complementary :
 ╭─────────┬─────┬──────┬─────────┬───────╮
 │ State   │ A   │ B    │ Start   │ End   │
 ├─────────┼─────┼──────┼─────────┼───────┤
-│ 0       │ 0   │ 0, 1 │ ✓       │ ✓     │
+│ 0       │ 0   │ 01   │ ✓       │ ✓     │
 ├─────────┼─────┼──────┼─────────┼───────┤
-│ 1       │ 2   │ P    │         │ ✓     │
+│ 01      │ 02  │ 01P  │         │ ✓     │
 ├─────────┼─────┼──────┼─────────┼───────┤
-│ 2       │ 2   │ 2    │         │       │
+│ 02      │ 02  │ 012  │         │       │
 ├─────────┼─────┼──────┼─────────┼───────┤
-│ P       │ P   │ P    │         │ ✓     │
+│ 012     │ 02  │ 012P │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 012P    │ 02P │ 012P │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 02P     │ 02P │ 012P │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 01P     │ 02P │ 01P  │         │ ✓     │
 ╰─────────┴─────┴──────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does not recognize AABB
-The automaton does recognize BABBBBB
-The automaton does recognize BAB
-The automaton does recognize BABBBBAAAA
-The automaton does not recognize AAAAA
-The automaton does recognize ABAABBA
-The automaton does recognize BABBAABAA
-The automaton does recognize ABAABABA
-The automaton does recognize ABABAAB
-The automaton does not recognize B
+Minimization :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (0)     │ (0) │ (0) │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (1)     │ (1) │ (2) │ ✓       │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (2)     │ (0) │ (2) │         │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
+The automaton does recognize BAABAB
+The automaton does recognize AAABAABB
+The automaton does not recognize A
+The automaton does recognize ABABBAAAA
+The automaton does not recognize AAABBB
+The automaton does recognize AABBA
+The automaton does recognize AABBBA
+The automaton does recognize BABBBA
+The automaton does recognize BBABABBAAA
+The automaton does not recognize BBBB

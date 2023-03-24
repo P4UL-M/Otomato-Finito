@@ -51,27 +51,44 @@ Completion :
 │ P       │ P       │ P   │ P   │ P   │         │       │
 ╰─────────┴─────────┴─────┴─────┴─────┴─────────┴───────╯
 Complementary :
-╭─────────┬─────────┬─────┬─────┬─────┬─────────┬───────╮
-│ State   │ A       │ B   │ C   │ D   │ Start   │ End   │
-├─────────┼─────────┼─────┼─────┼─────┼─────────┼───────┤
-│ 0       │ P       │ P   │ P   │ 1   │         │ ✓     │
-├─────────┼─────────┼─────┼─────┼─────┼─────────┼───────┤
-│ 1       │ 0, 2, 3 │ P   │ P   │ P   │ ✓       │       │
-├─────────┼─────────┼─────┼─────┼─────┼─────────┼───────┤
-│ 2       │ P       │ 3   │ P   │ P   │         │ ✓     │
-├─────────┼─────────┼─────┼─────┼─────┼─────────┼───────┤
-│ 3       │ P       │ P   │ 0   │ P   │         │ ✓     │
-├─────────┼─────────┼─────┼─────┼─────┼─────────┼───────┤
-│ P       │ P       │ P   │ P   │ P   │         │ ✓     │
-╰─────────┴─────────┴─────┴─────┴─────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does not recognize CBABDC
-The automaton does not recognize ACDCCCD
-The automaton does not recognize BABDADDC
-The automaton does not recognize CD
-The automaton does not recognize CBBABCBD
-The automaton does not recognize CCBDCBBAC
-The automaton does not recognize CCBCCCCA
-The automaton does not recognize DBCCABDBC
-The automaton does not recognize CBBAA
-The automaton does not recognize CCBBAAA
+╭─────────┬──────┬─────┬─────┬─────┬─────────┬───────╮
+│ State   │ A    │ B   │ C   │ D   │ Start   │ End   │
+├─────────┼──────┼─────┼─────┼─────┼─────────┼───────┤
+│ 1       │ 023  │ P   │ P   │ P   │ ✓       │       │
+├─────────┼──────┼─────┼─────┼─────┼─────────┼───────┤
+│ 023     │ P    │ 3P  │ 0P  │ 1P  │         │ ✓     │
+├─────────┼──────┼─────┼─────┼─────┼─────────┼───────┤
+│ P       │ P    │ P   │ P   │ P   │         │ ✓     │
+├─────────┼──────┼─────┼─────┼─────┼─────────┼───────┤
+│ 3P      │ P    │ P   │ 0P  │ P   │         │ ✓     │
+├─────────┼──────┼─────┼─────┼─────┼─────────┼───────┤
+│ 0P      │ P    │ P   │ P   │ 1P  │         │ ✓     │
+├─────────┼──────┼─────┼─────┼─────┼─────────┼───────┤
+│ 1P      │ 023P │ P   │ P   │ P   │         │       │
+├─────────┼──────┼─────┼─────┼─────┼─────────┼───────┤
+│ 023P    │ P    │ 3P  │ 0P  │ 1P  │         │ ✓     │
+╰─────────┴──────┴─────┴─────┴─────┴─────────┴───────╯
+Minimization :
+╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ C   │ D   │ Start   │ End   │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (0)     │ (2) │ (4) │ (4) │ (4) │ ✓       │ ✓     │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (1)     │ (4) │ (4) │ (4) │ (0) │         │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (2)     │ (4) │ (3) │ (1) │ (0) │         │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (3)     │ (4) │ (4) │ (1) │ (4) │         │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (4)     │ (4) │ (4) │ (4) │ (4) │         │       │
+╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
+The automaton does not recognize CCDBDBADDA
+The automaton does not recognize ADBBCAA
+The automaton does not recognize ADC
+The automaton does not recognize CADB
+The automaton does not recognize DACDDCAA
+The automaton does not recognize CDABC
+The automaton does not recognize BBDDB
+The automaton does not recognize DCA
+The automaton does not recognize ACCCDCCCAD
+The automaton does not recognize ADDCB

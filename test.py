@@ -15,6 +15,7 @@ if __name__ == '__main__':
         with open(path / 'FA' / file, encoding="utf-8") as f:
             print(file)
             data:dict = json.load(f)
+        original = automata(copy.deepcopy(data))
         automaton = automata(copy.deepcopy(data))
         automaton.display(1)
         try:
@@ -39,26 +40,35 @@ if __name__ == '__main__':
             automaton.display(1)
         except BadAction as e:
             print(e.args[0])
+        if not automaton.isDeterministic():
+            automaton.determinize()
         try:
             automaton.complementary()
             print("Complementary :")
             automaton.display(1)
         except BadAction as e:
             print(e.args[0])
-        automaton = automata(copy.deepcopy(data))
-        if "€" in automaton.language:
-            automaton.determinize()
+        minimized = automata(copy.deepcopy(data))
+        if not minimized.isDeterministic():
+            minimized.determinize()
+        if not minimized.isComplete():
+            minimized.complete()
         try:
-            automaton.minimize()
+            minimized.minimize()
             print("Minimization :")
-            automaton.display(1)
+            minimized.display(1)
         except Exception as e:
             print(e.args[0])
         # try random strings recognition
-        automaton = automata(copy.deepcopy(data))
-        if "€" in automaton.language:
-            automaton.determinize()
+        determinized = automata(copy.deepcopy(data))
+        if "€" in determinized.language:
+            determinized.determinize()
         for i in range(10):
+            word = "".join([random.choice(determinized.language) for i in range(random.randint(1, 10))])
+            print("The automaton", "does" if determinized.recognize(word) else "does not", "recognize", word)
+        for i in range(100000):
             word = "".join([random.choice(automaton.language) for i in range(random.randint(1, 10))])
-            print("The automaton", "does" if automaton.recognize(word) else "does not", "recognize", word)
-            
+            if minimized.recognize(word) != original.recognize(word) or automaton.recognize(word) == original.recognize(word):
+                print("Error !", word, file, automaton.recognize(word), original.recognize(word), minimized.recognize(word))
+                raise Exception("Error !")
+

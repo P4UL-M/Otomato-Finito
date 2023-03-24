@@ -35,23 +35,30 @@ Completion :
 │ P       │ P    │         │       │
 ╰─────────┴──────┴─────────┴───────╯
 Complementary :
-╭─────────┬──────┬─────────┬───────╮
-│ State   │ A    │ Start   │ End   │
-├─────────┼──────┼─────────┼───────┤
-│ 0       │ P    │         │       │
-├─────────┼──────┼─────────┼───────┤
-│ 1       │ 0, 1 │ ✓       │ ✓     │
-├─────────┼──────┼─────────┼───────┤
-│ P       │ P    │         │ ✓     │
-╰─────────┴──────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does recognize AAAAA
-The automaton does recognize AAAAAA
-The automaton does recognize AAAA
-The automaton does recognize AAAA
-The automaton does recognize AAAAAAAAAA
-The automaton does recognize AAAAAAA
-The automaton does recognize AAAA
-The automaton does recognize AAAAAAAAA
-The automaton does recognize AA
+╭─────────┬─────┬─────────┬───────╮
+│ State   │ A   │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│ 1       │ 01  │ ✓       │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ 01      │ 01P │         │       │
+├─────────┼─────┼─────────┼───────┤
+│ 01P     │ 01P │         │       │
+╰─────────┴─────┴─────────┴───────╯
+Minimization :
+╭─────────┬─────┬─────────┬───────╮
+│ State   │ A   │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│ (0)     │ (0) │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ (1)     │ (0) │ ✓       │       │
+╰─────────┴─────┴─────────┴───────╯
 The automaton does recognize AAA
+The automaton does recognize AAAAAAA
+The automaton does recognize AAAAAAA
+The automaton does recognize AAAAAA
+The automaton does recognize AAAAAAAAA
+The automaton does recognize AAAAAAA
+The automaton does recognize AA
+The automaton does recognize AAAAAAA
+The automaton does recognize AAAAAAAAAA
+The automaton does recognize A

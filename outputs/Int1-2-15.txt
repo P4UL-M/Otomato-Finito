@@ -61,14 +61,27 @@ Complementary :
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
 │ P       │ P   │ P   │ P   │ P   │         │ ✓     │
 ╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does not recognize DBCDC
-The automaton does not recognize CBBB
-The automaton does not recognize BDCDBAA
-The automaton does not recognize BCCBDBB
-The automaton does recognize D
-The automaton does not recognize CAA
-The automaton does not recognize AACDBCCCD
-The automaton does not recognize DABCDCBB
-The automaton does not recognize BBDBCACB
-The automaton does not recognize BCCC
+Minimization :
+╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ C   │ D   │ Start   │ End   │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (0)     │ (1) │ (1) │ (1) │ (0) │         │ ✓     │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (1)     │ (1) │ (1) │ (1) │ (1) │         │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (2)     │ (2) │ (3) │ (4) │ (0) │ ✓       │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (3)     │ (1) │ (3) │ (4) │ (0) │         │       │
+├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
+│ (4)     │ (1) │ (1) │ (4) │ (0) │         │       │
+╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
+The automaton does not recognize ACBCDBAAD
+The automaton does not recognize BDDDBBABDB
+The automaton does not recognize DDBDCDD
+The automaton does not recognize AAABABBCA
+The automaton does not recognize DBDCDC
+The automaton does not recognize ABABACCCBA
+The automaton does not recognize CDCB
+The automaton does not recognize DACCCBBBAA
+The automaton does not recognize CBCBDACC
+The automaton does not recognize ADDCCA

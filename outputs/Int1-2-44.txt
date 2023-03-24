@@ -40,27 +40,38 @@ Completion :
 │ P       │ P    │ P    │         │       │
 ╰─────────┴──────┴──────┴─────────┴───────╯
 Complementary :
-╭─────────┬──────┬──────┬─────────┬───────╮
-│ State   │ A    │ B    │ Start   │ End   │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ 0       │ 1, 2 │ 2    │ ✓       │ ✓     │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ 1       │ P    │ 3    │         │       │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ 2       │ 3    │ 2    │         │       │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ 3       │ 2, 3 │ 2, 3 │         │       │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ P       │ P    │ P    │         │ ✓     │
-╰─────────┴──────┴──────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does recognize BBBBABAAB
-The automaton does recognize BB
-The automaton does recognize BAAABAB
-The automaton does recognize AAABA
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 0       │ 12  │ 2   │ ✓       │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 12      │ 3P  │ 23  │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 3P      │ 23P │ 23P │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 23P     │ 23P │ 23P │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 23      │ 23  │ 23  │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 2       │ 3   │ 2   │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 3       │ 23  │ 23  │         │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
+Minimization :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (0)     │ (0) │ (0) │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (1)     │ (0) │ (0) │ ✓       │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
 The automaton does recognize B
-The automaton does recognize BBBBB
-The automaton does recognize BBBBABABBB
+The automaton does recognize BA
+The automaton does recognize AAABAAAAAB
 The automaton does recognize A
-The automaton does recognize BBBBBABABB
-The automaton does recognize AAABABAB
+The automaton does recognize ABBBBBBBAA
+The automaton does recognize ABAB
+The automaton does recognize AB
+The automaton does recognize BBBAB
+The automaton does recognize AABAAA
+The automaton does recognize ABBAAABBB

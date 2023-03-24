@@ -1,7 +1,7 @@
 from pyflowchart import *
 from tabulate import tabulate
 from functools import lru_cache
-#from logger import print
+from logger import print
 
 
 class BadAutomata(Exception):
@@ -267,6 +267,8 @@ class automata():
 
     @emptyWordErrorWrapper(False)
     def complementary(self) -> None:
+        if not self.isDeterministic():
+            raise BadAction("Please determinize the automaton before making its complementary")
         if not self.isComplete():
             self.complete()
         for properties in self.states.values():

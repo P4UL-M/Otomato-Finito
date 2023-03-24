@@ -28,7 +28,18 @@ Standardization :
 ├─────────┼─────┼─────┼─────────┼───────┤
 │ i       │ 0   │ 4   │ ✓       │       │
 ╰─────────┴─────┴─────┴─────────┴───────╯
-Your automata is already deterministic
+Determinization :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│   State │   A │   B │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│      13 │  02 │  04 │ ✓       │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│      02 │   0 │   0 │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       0 │   0 │   0 │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│      04 │   0 │   0 │         │ ✓     │
+╰─────────┴─────┴─────┴─────────┴───────╯
 Completion :
 ╭─────────┬─────┬─────┬─────────┬───────╮
 │ State   │ A   │ B   │ Start   │ End   │
@@ -49,26 +60,31 @@ Complementary :
 ╭─────────┬─────┬─────┬─────────┬───────╮
 │ State   │ A   │ B   │ Start   │ End   │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ 0       │ 0   │ 0   │         │ ✓     │
+│ 13      │ 02  │ 04  │ ✓       │ ✓     │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ 1       │ 2   │ 0   │ ✓       │ ✓     │
+│ 02      │ 0P  │ 0P  │         │       │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ 2       │ P   │ P   │         │       │
+│ 0P      │ 0P  │ 0P  │         │ ✓     │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ 3       │ 0   │ 4   │ ✓       │ ✓     │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ 4       │ P   │ P   │         │       │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ P       │ P   │ P   │         │ ✓     │
+│ 04      │ 0P  │ 0P  │         │       │
 ╰─────────┴─────┴─────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does not recognize BAABBAB
-The automaton does not recognize ABBABAAB
-The automaton does not recognize AABBAABBB
-The automaton does not recognize ABA
-The automaton does recognize B
-The automaton does not recognize AAAABBA
-The automaton does not recognize AA
-The automaton does not recognize AABAABAB
-The automaton does not recognize AA
-The automaton does not recognize AAABBB
+Minimization :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (0)     │ (1) │ (1) │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (1)     │ (1) │ (1) │         │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (2)     │ (0) │ (0) │ ✓       │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
+The automaton does not recognize AAABA
+The automaton does not recognize BABBABABB
+The automaton does not recognize ABAABBAAA
+The automaton does not recognize ABAABBBBB
+The automaton does recognize A
+The automaton does not recognize BABA
+The automaton does not recognize AABABAAB
+The automaton does not recognize BBBAAABA
+The automaton does not recognize ABABAAB
+The automaton does not recognize BBBBA

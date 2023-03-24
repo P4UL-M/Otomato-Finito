@@ -47,25 +47,46 @@ Completion :
 │ P       │ P    │ P    │         │       │
 ╰─────────┴──────┴──────┴─────────┴───────╯
 Complementary :
-╭─────────┬──────┬──────┬─────────┬───────╮
-│ State   │ A    │ B    │ Start   │ End   │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ 0       │ 1    │ 1, 2 │ ✓       │ ✓     │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ 1       │ P    │ 0, 2 │         │       │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ 2       │ 0, 1 │ P    │ ✓       │       │
-├─────────┼──────┼──────┼─────────┼───────┤
-│ P       │ P    │ P    │         │ ✓     │
-╰─────────┴──────┴──────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does recognize BBABBA
-The automaton does recognize ABABABBAB
-The automaton does recognize ABBAAB
-The automaton does recognize BBABABA
-The automaton does recognize BBBB
-The automaton does recognize ABABBA
-The automaton does recognize ABABABAB
+╭─────────┬─────┬──────┬─────────┬───────╮
+│ State   │ A   │ B    │ Start   │ End   │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 02      │ 01  │ 12P  │ ✓       │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 01      │ 1P  │ 012  │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 1P      │ P   │ 02P  │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ P       │ P   │ P    │         │ ✓     │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 02P     │ 01P │ 12P  │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 01P     │ 1P  │ 012P │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 012P    │ 01P │ 012P │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 12P     │ 01P │ 02P  │         │       │
+├─────────┼─────┼──────┼─────────┼───────┤
+│ 012     │ 01P │ 012P │         │       │
+╰─────────┴─────┴──────┴─────────┴───────╯
+Minimization :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (0)     │ (3) │ (2) │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (1)     │ (0) │ (2) │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (2)     │ (1) │ (2) │ ✓       │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (3)     │ (3) │ (3) │         │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
 The automaton does not recognize AAA
-The automaton does recognize ABABABBBA
-The automaton does recognize AABBBBB
+The automaton does recognize BBBBBBBB
+The automaton does recognize BBABAABBA
+The automaton does recognize BB
+The automaton does recognize BABBAA
+The automaton does recognize B
+The automaton does recognize BBBBAA
+The automaton does recognize B
+The automaton does recognize BBBBABB
+The automaton does recognize BA

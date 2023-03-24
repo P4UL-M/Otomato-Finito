@@ -24,7 +24,16 @@ Standardization :
 ├─────────┼─────┼─────┼─────────┼───────┤
 │ i       │ 2   │ 0   │ ✓       │       │
 ╰─────────┴─────┴─────┴─────────┴───────╯
-Your automata is already deterministic
+Determinization :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│   State │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│      13 │ 2   │ 0   │ ✓       │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       2 │     │     │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│       0 │     │     │         │ ✓     │
+╰─────────┴─────┴─────┴─────────┴───────╯
 Completion :
 ╭─────────┬─────┬─────┬─────────┬───────╮
 │ State   │ A   │ B   │ Start   │ End   │
@@ -43,24 +52,31 @@ Complementary :
 ╭─────────┬─────┬─────┬─────────┬───────╮
 │ State   │ A   │ B   │ Start   │ End   │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ 0       │ P   │ P   │         │       │
+│ 13      │ 2P  │ 0P  │ ✓       │ ✓     │
 ├─────────┼─────┼─────┼─────────┼───────┤
-│ 1       │ 2   │ P   │ ✓       │ ✓     │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ 2       │ P   │ P   │         │       │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ 3       │ P   │ 0   │ ✓       │ ✓     │
+│ 2P      │ P   │ P   │         │       │
 ├─────────┼─────┼─────┼─────────┼───────┤
 │ P       │ P   │ P   │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ 0P      │ P   │ P   │         │       │
 ╰─────────┴─────┴─────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
-The automaton does not recognize BBAA
-The automaton does not recognize BABAABAABA
-The automaton does not recognize AAB
-The automaton does not recognize ABAAABA
-The automaton does not recognize ABBBAA
-The automaton does not recognize BABABB
-The automaton does not recognize AAABAAAA
-The automaton does not recognize AABAA
-The automaton does not recognize AAAABBABB
-The automaton does not recognize ABB
+Minimization :
+╭─────────┬─────┬─────┬─────────┬───────╮
+│ State   │ A   │ B   │ Start   │ End   │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (0)     │ (2) │ (2) │         │ ✓     │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (1)     │ (0) │ (0) │ ✓       │       │
+├─────────┼─────┼─────┼─────────┼───────┤
+│ (2)     │ (2) │ (2) │         │       │
+╰─────────┴─────┴─────┴─────────┴───────╯
+The automaton does not recognize BBBBAA
+The automaton does not recognize BBBBAABA
+The automaton does not recognize BABBA
+The automaton does not recognize ABA
+The automaton does not recognize BA
+The automaton does not recognize BAABBBA
+The automaton does not recognize AAAB
+The automaton does not recognize ABABABABA
+The automaton does not recognize BABBAAAB
+The automaton does not recognize ABAAAABABA

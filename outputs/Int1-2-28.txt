@@ -35,29 +35,48 @@ Determinization :
 ╰─────────┴─────┴─────────┴───────╯
 Your automata is already complete
 Complementary :
-╭─────────┬──────┬─────────┬───────╮
-│   State │ A    │ Start   │ End   │
-├─────────┼──────┼─────────┼───────┤
-│       0 │ 4    │         │       │
-├─────────┼──────┼─────────┼───────┤
-│       1 │ 2, 4 │ ✓       │ ✓     │
-├─────────┼──────┼─────────┼───────┤
-│       2 │ 3    │         │ ✓     │
-├─────────┼──────┼─────────┼───────┤
-│       3 │ 2    │         │       │
-├─────────┼──────┼─────────┼───────┤
-│       4 │ 5    │         │ ✓     │
-├─────────┼──────┼─────────┼───────┤
-│       5 │ 0    │         │ ✓     │
-╰─────────┴──────┴─────────┴───────╯
-'automata' object has no attribute 'minimize'
+╭─────────┬─────┬─────────┬───────╮
+│   State │   A │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│       1 │  24 │ ✓       │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│      24 │  35 │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│      35 │  02 │         │       │
+├─────────┼─────┼─────────┼───────┤
+│      02 │  34 │         │       │
+├─────────┼─────┼─────────┼───────┤
+│      34 │  25 │         │       │
+├─────────┼─────┼─────────┼───────┤
+│      25 │  03 │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│      03 │  24 │         │       │
+╰─────────┴─────┴─────────┴───────╯
+Minimization :
+╭─────────┬─────┬─────────┬───────╮
+│ State   │ A   │ Start   │ End   │
+├─────────┼─────┼─────────┼───────┤
+│ (0)     │ (2) │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ (1)     │ (0) │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ (2)     │ (6) │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ (3)     │ (5) │         │ ✓     │
+├─────────┼─────┼─────────┼───────┤
+│ (4)     │ (5) │ ✓       │       │
+├─────────┼─────┼─────────┼───────┤
+│ (5)     │ (1) │         │       │
+├─────────┼─────┼─────────┼───────┤
+│ (6)     │ (3) │         │       │
+╰─────────┴─────┴─────────┴───────╯
+The automaton does recognize AAAA
 The automaton does recognize AAAAAA
-The automaton does recognize AAA
-The automaton does recognize AA
-The automaton does recognize AAAAAAAAA
+The automaton does recognize AAAAAAAA
+The automaton does not recognize AAAAAAA
+The automaton does not recognize AAAAAAA
 The automaton does not recognize A
+The automaton does recognize AAAAAAAA
 The automaton does not recognize AAAAA
-The automaton does not recognize A
-The automaton does recognize AA
-The automaton does not recognize AAAAA
-The automaton does recognize AAA
+The automaton does recognize AAAAAAAAAA
+The automaton does recognize AAAA
