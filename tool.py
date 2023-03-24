@@ -73,7 +73,7 @@ def stateNameSum(*args:stateName):
     # To sum a list of stateName
     return stateName(*map(str, args))
 
-class automata():
+class Automata():
     # class that contains all the functions to manipulate automata
     def __init__(self, data) -> None:
         # set language
@@ -403,9 +403,8 @@ class automata():
             new_automaton[group_name] = new_state
         self.states = new_automaton
         
-    # cache for epsilon closure
     @emptyWordErrorWrapper(True)
-    @lru_cache(maxsize=None)
+    @lru_cache(maxsize=None) # cache for epsilon closure so that it is computed only once for each state
     def _computeEpsilonClosure(self, *states:stateName) -> set[stateName]:
         """Compute the ε-closure of a set of states"""
         epsilon_closure = set(states)
@@ -526,4 +525,3 @@ class automata():
 
         chart = Flowchart(nodes[self.init_state])
         return chart.flowchart()
-        

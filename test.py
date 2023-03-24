@@ -1,4 +1,4 @@
-from myclass import * 
+from tool import * 
 import pathlib
 import json
 import copy
@@ -16,8 +16,8 @@ if __name__ == '__main__':
         with open(path / 'FA' / file, encoding="utf-8") as f:
             print(file)
             data:dict = json.load(f)
-        original = automata(copy.deepcopy(data))
-        automaton = automata(copy.deepcopy(data))
+        original = Automata(copy.deepcopy(data))
+        automaton = Automata(copy.deepcopy(data))
         automaton.display(1)
         try:
             automaton.standardize()
@@ -25,14 +25,14 @@ if __name__ == '__main__':
             automaton.display(1)
         except BadAction as e:
             print(e.args[0])
-        automaton = automata(copy.deepcopy(data))
+        automaton = Automata(copy.deepcopy(data))
         try:
             automaton.determinize()
             print("Determinization :")
             automaton.display(1)
         except BadAction as e:
             print(e.args[0])
-        automaton = automata(copy.deepcopy(data))
+        automaton = Automata(copy.deepcopy(data))
         if "€" in automaton.language:
             automaton.determinize()
         try:
@@ -49,7 +49,7 @@ if __name__ == '__main__':
             automaton.display(1)
         except BadAction as e:
             print(e.args[0])
-        minimized = automata(copy.deepcopy(data))
+        minimized = Automata(copy.deepcopy(data))
         if not minimized.isDeterministic():
             minimized.determinize()
         if not minimized.isComplete():
@@ -61,7 +61,7 @@ if __name__ == '__main__':
         except Exception as e:
             print(e.args[0])
         # try random strings recognition
-        determinized = automata(copy.deepcopy(data))
+        determinized = Automata(copy.deepcopy(data))
         if "€" in determinized.language:
             determinized.determinize()
         for i in range(10):

@@ -5,7 +5,7 @@ This file contains the main function for the execution of the program.
 """
 import json
 from pyflowchart import *
-from myclass import automata, BadAction, BadAutomata
+from tool import Automata, BadAction, BadAutomata
 from pathlib import Path
 from InquirerPy import inquirer, get_style
 from art import *
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
         with open(path / 'FA' / file_chosen, encoding="utf-8") as f:
             data = json.load(f)
-        myAutomata = automata(data)
+        myAutomata = Automata(data)
 
         while myAutomata != None:
             action = inquirer.select(
