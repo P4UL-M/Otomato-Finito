@@ -98,35 +98,14 @@ Complementary :
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
 │ 3       │ P   │ P   │ 34  │ 0   │         │ ✓     │
 ╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
-Minimization :
-╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
-│ State   │ A   │ B   │ C   │ D   │ Start   │ End   │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (0)     │ (8) │ (8) │ (8) │ (0) │         │ ✓     │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (1)     │ (8) │ (8) │ (8) │ (8) │         │ ✓     │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (2)     │ (3) │ (5) │ (6) │ (1) │ ✓       │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (3)     │ (3) │ (4) │ (6) │ (1) │         │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (4)     │ (8) │ (4) │ (7) │ (1) │         │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (5)     │ (8) │ (8) │ (7) │ (1) │         │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (6)     │ (8) │ (8) │ (8) │ (0) │         │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (7)     │ (8) │ (8) │ (7) │ (0) │         │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (8)     │ (8) │ (8) │ (8) │ (8) │         │       │
-╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
-The automaton does not recognize BC
-The automaton does not recognize CBADB
+The automaton is already minimal!
+The automaton does not recognize DBCCCDB
+The automaton does not recognize CCDD
+The automaton does not recognize ACAADAC
+The automaton does not recognize C
 The automaton does recognize D
-The automaton does not recognize DCA
-The automaton does not recognize BDDDADACC
-The automaton does not recognize DBABBAAD
-The automaton does not recognize CABACCDDB
-The automaton does not recognize ABBCAABC
-The automaton does not recognize B
-The automaton does not recognize ADBCCC
+The automaton does not recognize ACDAACC
+The automaton does not recognize BBBC
+The automaton does not recognize CABABCAA
+The automaton does not recognize AACCCA
+The automaton does not recognize DDADDCABA

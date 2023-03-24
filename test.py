@@ -8,6 +8,7 @@ import random
 path = pathlib.Path(__file__).parent
 
 if __name__ == '__main__':
+    Settings.debug = True
     folder = pathlib.Path(path / "FA")
     files = sorted([*map(lambda x: x.relative_to(folder), filter(lambda x: x.is_file(), folder.rglob("*.txt")))])
     for file in files:

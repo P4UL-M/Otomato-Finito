@@ -65,13 +65,13 @@ Minimization :
 ├─────────┼─────┼─────┼─────────┼───────┤
 │ (1)     │ (0) │ (0) │ ✓       │       │
 ╰─────────┴─────┴─────┴─────────┴───────╯
-The automaton does recognize B
-The automaton does recognize BA
-The automaton does recognize AAABAAAAAB
+The automaton does recognize BABA
+The automaton does recognize BBBB
 The automaton does recognize A
-The automaton does recognize ABBBBBBBAA
-The automaton does recognize ABAB
-The automaton does recognize AB
-The automaton does recognize BBBAB
-The automaton does recognize AABAAA
-The automaton does recognize ABBAAABBB
+The automaton does recognize AABBAAAAA
+The automaton does recognize BABBBABB
+The automaton does recognize ABBBBBABB
+The automaton does recognize BAA
+The automaton does recognize BBAAAB
+The automaton does recognize AAAAA
+The automaton does recognize ABBABBABA

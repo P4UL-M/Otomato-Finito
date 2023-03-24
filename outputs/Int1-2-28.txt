@@ -52,31 +52,14 @@ Complementary :
 ├─────────┼─────┼─────────┼───────┤
 │      03 │  24 │         │       │
 ╰─────────┴─────┴─────────┴───────╯
-Minimization :
-╭─────────┬─────┬─────────┬───────╮
-│ State   │ A   │ Start   │ End   │
-├─────────┼─────┼─────────┼───────┤
-│ (0)     │ (2) │         │ ✓     │
-├─────────┼─────┼─────────┼───────┤
-│ (1)     │ (0) │         │ ✓     │
-├─────────┼─────┼─────────┼───────┤
-│ (2)     │ (6) │         │ ✓     │
-├─────────┼─────┼─────────┼───────┤
-│ (3)     │ (5) │         │ ✓     │
-├─────────┼─────┼─────────┼───────┤
-│ (4)     │ (5) │ ✓       │       │
-├─────────┼─────┼─────────┼───────┤
-│ (5)     │ (1) │         │       │
-├─────────┼─────┼─────────┼───────┤
-│ (6)     │ (3) │         │       │
-╰─────────┴─────┴─────────┴───────╯
-The automaton does recognize AAAA
-The automaton does recognize AAAAAA
-The automaton does recognize AAAAAAAA
+The automaton is already minimal!
 The automaton does not recognize AAAAAAA
 The automaton does not recognize AAAAAAA
-The automaton does not recognize A
-The automaton does recognize AAAAAAAA
-The automaton does not recognize AAAAA
 The automaton does recognize AAAAAAAAAA
+The automaton does recognize AAA
 The automaton does recognize AAAA
+The automaton does recognize AAA
+The automaton does not recognize AAAAA
+The automaton does recognize AAA
+The automaton does not recognize A
+The automaton does recognize AAAAAAAAAA

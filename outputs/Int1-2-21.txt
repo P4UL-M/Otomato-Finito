@@ -53,27 +53,14 @@ Complementary :
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
 │ P       │ P   │ P   │ P   │ P   │         │ ✓     │
 ╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
-Minimization :
-╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
-│ State   │ A   │ B   │ C   │ D   │ Start   │ End   │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (0)     │ (3) │ (4) │ (4) │ (4) │ ✓       │ ✓     │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (1)     │ (4) │ (4) │ (4) │ (0) │         │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (2)     │ (4) │ (4) │ (1) │ (4) │         │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (3)     │ (4) │ (2) │ (4) │ (4) │         │       │
-├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (4)     │ (4) │ (4) │ (4) │ (4) │         │       │
-╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
-The automaton does not recognize BDB
-The automaton does not recognize BDABACABCC
-The automaton does not recognize DACDBBACB
-The automaton does not recognize B
-The automaton does not recognize BABDDAAB
-The automaton does not recognize DB
-The automaton does not recognize BAACCCDC
-The automaton does not recognize CADCBCB
-The automaton does not recognize DBCCCD
-The automaton does not recognize DBA
+The automaton is already minimal!
+The automaton does not recognize ABBDC
+The automaton does not recognize CACDDDABA
+The automaton does not recognize ABC
+The automaton does not recognize DCDCDAC
+The automaton does not recognize BDBCAABAA
+The automaton does not recognize BCCD
+The automaton does not recognize BCBAADB
+The automaton does not recognize DDBBADABCB
+The automaton does not recognize D
+The automaton does not recognize DAABBBBBD

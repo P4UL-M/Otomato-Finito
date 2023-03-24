@@ -66,29 +66,14 @@ Complementary :
 ├─────────┼─────┼─────┼─────────┼───────┤
 │ 02      │ 0P  │ 12P │         │       │
 ╰─────────┴─────┴─────┴─────────┴───────╯
-Minimization :
-╭─────────┬─────┬─────┬─────────┬───────╮
-│ State   │ A   │ B   │ Start   │ End   │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ (0)     │ (5) │ (3) │         │ ✓     │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ (1)     │ (0) │ (5) │         │ ✓     │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ (2)     │ (4) │ (3) │ ✓       │ ✓     │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ (3)     │ (4) │ (1) │         │ ✓     │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ (4)     │ (0) │ (3) │         │ ✓     │
-├─────────┼─────┼─────┼─────────┼───────┤
-│ (5)     │ (5) │ (5) │         │       │
-╰─────────┴─────┴─────┴─────────┴───────╯
-The automaton does recognize A
-The automaton does recognize ABB
-The automaton does not recognize AAABBB
-The automaton does not recognize BBB
-The automaton does recognize BAB
-The automaton does not recognize BBBAABBBB
-The automaton does recognize ABAABB
-The automaton does not recognize ABBBAB
-The automaton does not recognize BABBBAAA
-The automaton does not recognize AAABBA
+The automaton is already minimal!
+The automaton does recognize AA
+The automaton does not recognize BABBABBBA
+The automaton does recognize BABABA
+The automaton does not recognize ABAABBBA
+The automaton does not recognize BABAAAAAA
+The automaton does not recognize AAABAA
+The automaton does recognize BABA
+The automaton does recognize AB
+The automaton does recognize AA
+The automaton does not recognize BBBA

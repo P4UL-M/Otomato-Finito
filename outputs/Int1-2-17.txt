@@ -92,25 +92,25 @@ Minimization :
 ╭─────────┬─────┬─────┬─────┬─────┬─────────┬───────╮
 │ State   │ A   │ B   │ C   │ D   │ Start   │ End   │
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (0)     │ (1) │ (1) │ (1) │ (0) │         │ ✓     │
+│ (0)     │ (3) │ (3) │ (3) │ (0) │         │ ✓     │
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (1)     │ (1) │ (1) │ (1) │ (1) │         │       │
+│ (1)     │ (3) │ (1) │ (4) │ (3) │         │       │
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (2)     │ (2) │ (3) │ (1) │ (1) │         │       │
+│ (2)     │ (2) │ (1) │ (3) │ (3) │         │       │
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (3)     │ (1) │ (3) │ (4) │ (1) │         │       │
+│ (3)     │ (3) │ (3) │ (3) │ (3) │         │       │
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (4)     │ (1) │ (1) │ (4) │ (0) │         │       │
+│ (4)     │ (3) │ (3) │ (4) │ (0) │         │       │
 ├─────────┼─────┼─────┼─────┼─────┼─────────┼───────┤
-│ (5)     │ (2) │ (3) │ (4) │ (0) │ ✓       │       │
+│ (5)     │ (2) │ (1) │ (4) │ (0) │ ✓       │       │
 ╰─────────┴─────┴─────┴─────┴─────┴─────────┴───────╯
-The automaton does not recognize ABBCDCAABC
-The automaton does not recognize ABCBBC
-The automaton does not recognize B
-The automaton does not recognize BBDDBB
-The automaton does not recognize CDBABD
+The automaton does not recognize AACDAD
+The automaton does not recognize CDDDCA
 The automaton does not recognize C
-The automaton does not recognize ACBABD
-The automaton does not recognize ADAAC
-The automaton does not recognize BACAADBCA
-The automaton does not recognize CDDBB
+The automaton does not recognize AADA
+The automaton does not recognize DABDBDDBDD
+The automaton does recognize CD
+The automaton does not recognize BABCBB
+The automaton does not recognize ADD
+The automaton does not recognize CCDCBA
+The automaton does not recognize DBDBDDDCB
