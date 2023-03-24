@@ -8,11 +8,13 @@ import pathlib
 # Python 3
 import builtins as __builtin__
 
-class var:
+class Settings:
     """A class to store global variables."""
     endfiles: str = []
     outfile: str = ""
     path = pathlib.Path(__file__).parent
+    verbose: bool = False
+    debug: bool = False
 
 def print(*args, **kwargs):
     """My custom print() function."""
@@ -20,13 +22,16 @@ def print(*args, **kwargs):
     # is probably a bad idea.
     # Instead consider testing if custom argument keywords
     # are present in kwargs
-    if var.outfile in var.endfiles:
-        with open(var.path / "outputs" / var.outfile, "a") as f:
-            sep = kwargs.get("sep", " ")
-            f.write(sep.join(map(str,args)) + "\n")
+    if Settings.debug:
+        if Settings.outfile in Settings.endfiles:
+            with open(Settings.path / "outputs" / Settings.outfile, "a") as f:
+                sep = kwargs.get("sep", " ")
+                f.write(sep.join(map(str,args)) + "\n")
+        else:
+            with open(Settings.path / "outputs" / Settings.outfile, "w+") as f:
+                sep = kwargs.get("sep", " ")
+                f.write(sep.join(map(str,args)) + "\n")
+            Settings.endfiles.append(Settings.outfile)
+        return __builtin__.print(*args, **kwargs)
     else:
-        with open(var.path / "outputs" / var.outfile, "w+") as f:
-            sep = kwargs.get("sep", " ")
-            f.write(sep.join(map(str,args)) + "\n")
-        var.endfiles.append(var.outfile)
-    return __builtin__.print(*args, **kwargs)
+        return __builtin__.print(*args, **kwargs)

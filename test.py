@@ -2,7 +2,7 @@ from myclass import *
 import pathlib
 import json
 import copy
-from logger import print, var
+from logger import print, Settings
 import random
 
 path = pathlib.Path(__file__).parent
@@ -11,7 +11,7 @@ if __name__ == '__main__':
     folder = pathlib.Path(path / "FA")
     files = sorted([*map(lambda x: x.relative_to(folder), filter(lambda x: x.is_file(), folder.rglob("*.txt")))])
     for file in files:
-        var.outfile = file
+        Settings.outfile = file
         with open(path / 'FA' / file, encoding="utf-8") as f:
             print(file)
             data:dict = json.load(f)

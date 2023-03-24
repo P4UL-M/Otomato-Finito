@@ -6,7 +6,7 @@ This files contains the class automata and all the functions that are used to ma
 from pyflowchart import *
 from tabulate import tabulate
 from functools import lru_cache
-from logger import print
+from logger import print, Settings
 
 
 class BadAutomata(Exception): # Exception for async automata in functions that don't work with them
@@ -293,7 +293,7 @@ class automata():
             properties["end"] = not properties["end"]
 
     @emptyWordErrorWrapper(False)
-    def minimize(self, verbose=False) -> None:
+    def minimize(self) -> None:
         # make sure we have a CDFA
         condition = []
         if not self.isDeterministic(): # isAsync included in isDeterministic
@@ -332,7 +332,7 @@ class automata():
                                 new_transitions[letter] = [groupName for groupName, group in groupNames.items() if properties[letter][0] in group]
                         partitionStates[state] = new_transitions
                     
-                    if verbose: # print each partition
+                    if Settings.verbose: # print each partition
                         # original table
                         table = []
                         for state, properties in groupStates.items():
@@ -385,9 +385,9 @@ class automata():
                     subgroups.append(groupStateNames)
                     
             θcurrent = subgroups
-
             i += 1
-            
+        if len(θcurrent) == len(self.states):
+            raise BadAction("The automaton is already minimal!")
         new_automaton = {}
         for group in θcurrent:
             new_state = {}
@@ -502,23 +502,28 @@ class automata():
 
     def export(self) -> str:
         """Export the automaton as a flowchart"""
-        if not self.init_state:
-            raise BadAction("Your automata must at least be standard to be export.")
+        if not self.isDeterministic():
+            raise BadAction("The automaton is not deterministic")
+        if len(self.language) > 1:
+            raise BadAction("The automaton must have a language of size 1")
+
 
         nodes: dict[str, OperationNode] = {}
 
         for state, property in self.states.items():
             if property["start"]:
-                nodes[state] = StartNode(state)
+                nodes[state] = OperationNode(str(state) + " (start)")
             elif property["end"]:
-                nodes[state] = EndNode(state)
+                nodes[state] = OperationNode(str(state) + " (end)")
             else:
                 nodes[state] = OperationNode(state)
 
         for state, propreties in self.states.items():
             for letter in self.language:
-                for endState in propreties[letter]:
-                    nodes[state].connect(nodes[endState])
+                if letter in propreties.keys():
+                    for endState in propreties[letter]:
+                        nodes[state].connect(nodes[endState])
 
         chart = Flowchart(nodes[self.init_state])
         return chart.flowchart()
+        
