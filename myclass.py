@@ -329,11 +329,13 @@ class automata():
                             for letter in self.language:
                                 partitionLine.append(partitionStates[state][letter][0])
                             partitionTable.append(partitionLine)
-                    
+                        
                         table1 = tabulate(table, headers = ["State"]+self.language, tablefmt="rounded_grid")
                         table2 = tabulate(partitionTable, headers = self.language, tablefmt="rounded_grid")
-                        print(tabulate( [ [key , ", ".join(map(str,val))] for key,val in groupNames.items() ] ,headers = ['Group names','States contained'],tablefmt="rounded_grid"),end="\n") 
-                        print(tabulate([[table1, table2]],headers = ['Original',f'under θ {i}'],tablefmt="rounded_grid"),end="\n\n\n")
+                        # print title in bold, red and underlined
+                        print(f" \033[1m\033[4m\033[31mIteration θ {i} :\033[0m")
+                        print(tabulate( [ [key , ", ".join(map(str,val))] for key,val in groupNames.items() ] ,headers = ['Group names','States contained'],tablefmt="rounded_grid"),end="\n")
+                        print(tabulate([[table1, table2]],headers = ['Original',f'Under θ {i}'],tablefmt="rounded_grid"),end="\n\n\n")
                 
                     currentSubgroups: list[list[stateName]] = []
                     for state, transtitions in partitionStates.items():
