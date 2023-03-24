@@ -125,12 +125,13 @@ if __name__ == '__main__':
                     print(e.args[0])
 
             elif action == "Word recognition":
+                multiple_letter_language = any([len(l) > 1 for l in myAutomata.language])
                 print("Here is the language of the automata :", ", ".join(l for l in myAutomata.language if l != "€"))
                 promt = inquirer.text(
                     message="Enter the word you want to recognize :", 
-                    validate=lambda x: all([l in myAutomata.language for l in x])
+                    validate=lambda x: all([l in myAutomata.language for l in (x.split(",") if multiple_letter_language else x)]),
                 ).execute()
-                print(f"""Your automata {"does" if myAutomata.recognize(promt) else "doesn't" } recognize "{promt}".""")
+                print(f"""Your automata {"does" if myAutomata.recognize(promt, ',' if multiple_letter_language else '') else "doesn't" } recognize "{promt}".""")
 
             elif action == "Complementary language":
                 try:

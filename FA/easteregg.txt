@@ -1,0 +1,27 @@
+{
+    "language": ["Oui", "Non", "Pas d'avis"],
+    "states": {
+        "Otomato est le meilleur project ?": {
+            "Oui": ["Nice"],
+            "Non": ["Bad"],
+            "Pas d'avis": ["Êtes-vous sûr?"],
+            "start": true,
+            "end": false
+        },
+        "Nice": {
+            "start": false,
+            "end": true
+        },
+        "Bad": {
+            "start": false,
+            "end": false
+        },
+        "Êtes-vous sûr?": {
+            "Oui": ["Bad"],
+            "Non": ["Otomato est le meilleur project ?"],
+            "Pas d'avis": ["Êtes-vous sûr?"],
+            "start": false,
+            "end": false
+        }
+    }
+}

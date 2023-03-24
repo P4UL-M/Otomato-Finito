@@ -449,19 +449,21 @@ class Automata():
         return set()
 
     @emptyWordErrorWrapper(False)
-    def recognize(self, word:str) -> bool:
+    def recognize(self, word:str, sep="") -> bool:
         """Recognize a word with the automaton if it is not async"""
         def recognizeRec(state:str, word:str) -> bool:
             if word == "": # if the word is empty, return true if the state is an end state
                 return self.states[state]["end"]
             else:
-                if word[0] not in self.language:
+                letter = word.split(sep)[0] if sep else word[0]
+                rest = sep.join(word.split(sep)[1:] if sep else word[1:])
+                if letter not in self.language:
                     raise Exception("The word contains a letter that is not in the language of the automata") # if the word contains a letter that is not in the language of the automata, raise an exception
-                if word[0] not in self.states[state].keys():
+                if letter not in self.states[state].keys():
                     return False # if there is no transition for the letter, return false
                 else:
-                    for endState in self.states[state][word[0]]:
-                        if recognizeRec(endState, word[1:]):
+                    for endState in self.states[state][letter]:
+                        if recognizeRec(endState, rest):
                             return True # if any of the next states can recognize the rest of the word, return true
                     return False # if none of the next states can recognize the rest of the word, return false
         if self.init_state:
@@ -471,7 +473,7 @@ class Automata():
             return any(map(lambda state: recognizeRec(state, word), init_states)) # return true if any of the initial states can recognize the word
 
     @emptyWordErrorWrapper(True)
-    def recognize(self, word:str) -> bool: # function to recognize a word with the empty word expression in the automata
+    def recognize(self, word:str, sep='') -> bool: # function to recognize a word with the empty word expression in the automata
         """Recognize a word with the automaton if it is async"""
         def recognizeRec(state:stateName, word:str) -> bool:
             if word == "":
@@ -481,17 +483,19 @@ class Automata():
                             return True # if the word is empty and there is an empty word transition, return true if any of the next states can recognize the empty word
                 return self.states[state]["end"]
             else: # same as the non async version
-                if word[0] not in self.language:
-                    raise Exception("The word contains a letter that is not in the language of the automata")
+                letter = word.split(sep)[0] if sep else word[0]
+                rest = sep.join(word.split(sep)[1:] if sep else word[1:])
+                if letter not in self.language:
+                    raise Exception(f"The word contains a letter that is not in the language of the automata : {letter}")
                 if "€" in self.states[state]:
                     for endState in self.states[state]["€"]:
                         if recognizeRec(endState, word):
                             return True
-                if word[0] not in self.states[state].keys():
+                if letter not in self.states[state].keys():
                     return False
                 else:
-                    for endState in self.states[state][word[0]]:
-                        if recognizeRec(endState, word[1:]):
+                    for endState in self.states[state][letter]:
+                        if recognizeRec(endState, rest):
                             return True
                     return False
         if self.init_state:
