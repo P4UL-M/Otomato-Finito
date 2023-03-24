@@ -130,6 +130,7 @@ if __name__ == '__main__':
                 promt = inquirer.text(
                     message="Enter the word you want to recognize :", 
                     validate=lambda x: all([l in myAutomata.language for l in (x.split(",") if multiple_letter_language else x)]),
+                    raise_keyboard_interrupt=False,
                 ).execute()
                 print(f"""Your automata {"does" if myAutomata.recognize(promt, ',' if multiple_letter_language else '') else "doesn't" } recognize "{promt}".""")
 
