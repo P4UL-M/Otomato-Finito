@@ -4,6 +4,8 @@ from myclass import automata, BadAction, BadAutomata
 from pathlib import Path
 from InquirerPy import inquirer, get_style
 
+
+
 path = Path(__file__).parent
 
 if __name__ == '__main__':
@@ -67,7 +69,14 @@ if __name__ == '__main__':
                     print(e.args[0])
 
             elif action == "Minimization":
-                pass
+                try:
+                    myAutomata.minimize(True)
+                    print("Minimization completed !")
+                    myAutomata.display(1)
+                except BadAction as e:
+                    print(e.args[0])
+                except BadAutomata as e:
+                    print(e.args[0])
 
             elif action == "Word recognition":
                 print("Here is the language of the automata :", ", ".join(l for l in myAutomata.language if l != "€"))
