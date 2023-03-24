@@ -1,3 +1,8 @@
+"""
+Ôtomato Finito
+CARDONA Quentin, HATOUM Jade, LOONES Axel, MAIRESSE Paul, MALLÉUS Soizic
+This file contains a custom print function in order to write the outputs in a file.
+"""
 from __future__ import print_function
 import pathlib
 # Python 3
