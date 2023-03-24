@@ -1,7 +1,8 @@
 from pyflowchart import *
 from tabulate import tabulate
 from functools import lru_cache
-from logger import print
+#from logger import print
+
 
 class BadAutomata(Exception):
     pass
@@ -89,6 +90,13 @@ class automata():
             elif properties["start"] and initState:
                 return None
         return initState
+    
+    def findFinalStates(self) -> set[stateName]:
+        FinalStates = set()
+        for state, properties in self.states.items():
+            if properties["end"]:
+                FinalStates.add(state)
+        return FinalStates
 
     @property
     def isAsync(self) -> bool:
@@ -168,6 +176,8 @@ class automata():
 
     def isDeterministic(self) -> bool:
         if self.isAsync:
+            return False
+        if self.init_state == None:
             return False
         for properties in self.states.values():
             for letter in self.language:
@@ -262,6 +272,115 @@ class automata():
         for properties in self.states.values():
             properties["end"] = not properties["end"]
 
+    @emptyWordErrorWrapper(False)
+    def minimize(self, verbose=False) -> None:
+        # make sure we have a CDFA
+        condition = []
+        if not self.isDeterministic(): # isAsync included in isDeterministic
+            condition += ["determinize"]
+        if not self.isComplete():
+            condition += ["complete"]
+        if condition:
+            raise BadAutomata(f"Please { ' and '.join(map(str,condition)) } the automaton before minimizing it!")
+        
+        # construct the initial partition (Θ0 = {F, NF})
+        F = self.findFinalStates()# final states
+        NF = set(self.states.keys()) - F # non-final states
+        θcurrent : list[set:stateName] = [group for group in [F, NF] if group] # exclude empty sets in θcurrent
+        θprev : list[set:stateName] = []
+        i=0 # iteration counter
+        
+        while θprev != θcurrent: # while the partition is not stable
+            if len(θprev) == len(self.states): # if the partition has as many groups as states
+                raise BadAction("The automaton is already minimal!")
+
+            θprev = θcurrent # store current partition to compare it to the next partition
+            
+            groupNames = {stateName(f"({num})") : group for num,group in enumerate(θcurrent)}
+            subgroups: list[set[stateName]] = []
+
+            for groupStateNames in θprev: # for each group in the current partition
+                groupStates : dict[stateName:dict[str:list[stateName]|bool]] = {key: self.states[key] for key in groupStateNames}
+                
+                if len(groupStates) > 1: # if the group isn't a singleton
+                    #logic :
+                    partitionStates = {}
+                    for state, properties in groupStates.items():
+                        new_transitions = {}
+                        for letter in self.language:
+                            if letter in properties.keys():
+                                new_transitions[letter] = [groupName for groupName, group in groupNames.items() if properties[letter][0] in group]
+                        partitionStates[state] = new_transitions
+                    
+                    if verbose: # print each partition
+                        # original table
+                        table = []
+                        for state, properties in groupStates.items():
+                            line = [str(state)]
+                            for letter in self.language:
+                                if letter in properties.keys(): # if the state has a transition for the letter
+                                    line.append(", ".join(map(str,properties[letter])) )
+                            table.append(line)
+                                        
+                        # under θi : check in which groups are the states in table2
+                        partitionTable = []
+                        for state in groupStates.keys():
+                            partitionLine = []
+                            for letter in self.language:
+                                partitionLine.append(partitionStates[state][letter][0])
+                            partitionTable.append(partitionLine)
+                    
+                        table1 = tabulate(table, headers = ["State"]+self.language, tablefmt="rounded_grid")
+                        table2 = tabulate(partitionTable, headers = self.language, tablefmt="rounded_grid")
+                        print(tabulate( [ [key , ", ".join(map(str,val))] for key,val in groupNames.items() ] ,headers = ['Group names','States contained'],tablefmt="rounded_grid"),end="\n") 
+                        print(tabulate([[table1, table2]],headers = ['Original',f'under θ {i}'],tablefmt="rounded_grid"),end="\n\n\n")
+                
+                    currentSubgroups: list[list[stateName]] = []
+                    for state, transtitions in partitionStates.items():
+                        if len(currentSubgroups) == 0:
+                            currentSubgroups.append([state])
+                            continue
+                        added = False
+                        for subgroup in currentSubgroups:
+                            equal = True
+                            for letter in self.language:
+                                if transtitions[letter] != partitionStates[subgroup[-1]][letter]:
+                                    equal = False
+                                    break
+                            if equal:
+                                added = True
+                                subgroup.append(state)
+                                break
+                        else:
+                            if not added:
+                                currentSubgroups.append([state])
+                    for subgroup in currentSubgroups:
+                        subgroups.append(subgroup)
+                        
+                else: # if the group is a singleton
+                    subgroups.append(groupStateNames)
+                    
+            θcurrent = subgroups
+
+            i += 1
+            
+            #TODO simplify and remove duplicate patterns
+            #TODO associate start/end to each state in final partition
+        new_automaton = {}
+        for group in θcurrent:
+            new_state = {}
+            new_state["start"] = any(self.states[s]["start"] for s in group)
+            new_state["end"] = any(self.states[s]["end"] for s in group)
+            # create new transitions
+            for letter in self.language:
+                for state in group:
+                    if letter in self.states[state]:
+                        new_state[letter] = [groupName for groupName, group in groupNames.items() if self.states[state][letter][0] in group]
+                        break
+            group_name = [groupName for groupName, group in groupNames.items() if state in group][0]
+            new_automaton[group_name] = new_state
+        self.states = new_automaton
+        
     # cache for epsilon closure
     @emptyWordErrorWrapper(True)
     @lru_cache(maxsize=None)
