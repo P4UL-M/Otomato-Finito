@@ -334,9 +334,6 @@ class Automata():
         i=0 # iteration counter
         
         while θprev != θcurrent: # while the partition is not stable
-            if len(θprev) == len(self.states): # if the partition has as many groups as states
-                raise BadAction("The automaton is already minimal!")
-
             θprev = θcurrent # store current partition to compare it to the next partition
             
             groupNames = {stateName(f"({num})") : group for num,group in enumerate(θcurrent)}
@@ -464,8 +461,7 @@ class Automata():
                     return False # if there is no transition for the letter, return false
                 else:
                     for endState in self.states[state][letter]:
-                        if recognizeRec(endState, rest):
-                            return True # if any of the next states can recognize the rest of the word, return true
+                        return recognizeRec(endState, rest) # if any of the next states can recognize the rest of the word, return true
                     return False # if none of the next states can recognize the rest of the word, return false
         if self.init_state:
             return recognizeRec(self.init_state, word) # if there is an initial state, start from it
@@ -496,8 +492,7 @@ class Automata():
                     return False
                 else:
                     for endState in self.states[state][letter]:
-                        if recognizeRec(endState, rest):
-                            return True
+                        return recognizeRec(endState, rest)
                     return False
         if self.init_state:
             return recognizeRec(self.init_state, word) # if there is an initial state, start from it
