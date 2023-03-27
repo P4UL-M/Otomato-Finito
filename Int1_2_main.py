@@ -15,7 +15,8 @@ from Int1_2_logger import Settings, print
 path = Path(__file__).parent
 
 if __name__ == '__main__':
-    tprint("Otomato   Finito\n",font="tarty1", chr_ignore=True, decoration="block")
+    tprint("Otomato   Finito\n", font="tarty1",
+           chr_ignore=True, decoration="block")
     print("By CARDONA Quentin, HATOUM Jade, LOONES Axel, MAIRESSE Paul, MALLÉUS Soizic")
 
     # Setting menu
@@ -33,7 +34,8 @@ if __name__ == '__main__':
             # enter path to debug file
             filepath = inquirer.filepath(
                 message="Enter the path to the debug file (pass if you want to create a new one)",
-                validate=lambda x: Path(x).is_file() and Path(x).suffix == ".txt",
+                validate=lambda x: Path(
+                    x).is_file() and Path(x).suffix == ".txt",
                 raise_keyboard_interrupt=False,
                 mandatory=False,
                 default=str(path / "outputs"),
@@ -41,7 +43,8 @@ if __name__ == '__main__':
             if filepath == None:
                 folder = Path(path / "outputs")
                 new_file = "debug.txt"
-                confirm_promt = inquirer.confirm(message="Do you want to the default file at the location : " + str(folder / new_file), raise_keyboard_interrupt=False, mandatory=False).execute()
+                confirm_promt = inquirer.confirm(message="Do you want to the default file at the location : " + str(
+                    folder / new_file), raise_keyboard_interrupt=False, mandatory=False).execute()
                 if confirm_promt:
                     open(folder / new_file, "w+")
                     Settings.outfile = new_file
@@ -59,12 +62,13 @@ if __name__ == '__main__':
 
     # Menu
     menu_on = True
-    while menu_on: # Menu loop
+    while menu_on:  # Menu loop
         folder = Path(path / "FA")
-        files = [*map(lambda x: x.relative_to(folder), filter(lambda x: x.is_file(), folder.rglob("*.txt")))]
-        # This function lists the files in the folder "FA" which contains all the automata files
+        files = [*map(lambda x: x.relative_to(folder),
+                      filter(lambda x: x.is_file(), folder.rglob("*.txt")))]
+        # This function lists the files in the folder "FA" which contains all the automaton files
         file_chosen = inquirer.fuzzy(
-            message="Which file would you like to import :", # To chose the file to work on
+            message="Which file would you like to import :",  # To chose the file to work on
             choices=files,
             default="Int1-2-",
             raise_keyboard_interrupt=False,
@@ -77,9 +81,9 @@ if __name__ == '__main__':
 
         while myAutomata != None:
             action = inquirer.select(
-                message="What do you want to do ?", # To chose the action to do
+                message="What do you want to do ?",  # To chose the action to do
                 choices=["Displaying FA", "Standardization", "Determinization", "Completion", "Minimization",
-                        "Word recognition", "Complementary language","Export to flowchart.js"],
+                         "Word recognition", "Complementary language", "Export to flowchart.js"],
                 default="Displaying FA",
                 raise_keyboard_interrupt=False,
                 mandatory=False
@@ -125,19 +129,23 @@ if __name__ == '__main__':
                     print(e.args[0])
 
             elif action == "Word recognition":
-                multiple_letter_language = any([len(l) > 1 for l in myAutomata.language])
-                print("Here is the language of the automata :", ", ".join(l for l in myAutomata.language if l != "€"))
+                multiple_letter_language = any(
+                    [len(l) > 1 for l in myAutomata.language])
+                print("Here is the language of the automaton :", ", ".join(
+                    l for l in myAutomata.language if l != "€"))
                 promt = inquirer.text(
-                    message="Enter the word you want to recognize :", 
-                    validate=lambda x: all([l in myAutomata.language for l in (x.split(",") if multiple_letter_language else x)]),
+                    message="Enter the word you want to recognize :",
+                    validate=lambda x: all([l in myAutomata.language for l in (
+                        x.split(",") if multiple_letter_language else x)]),
                     raise_keyboard_interrupt=False,
                 ).execute()
-                print(f"""Your automata {"does" if myAutomata.recognize(promt, ',' if multiple_letter_language else '') else "doesn't" } recognize "{promt}".""")
+                print(
+                    f"""Your automaton {"does" if myAutomata.recognize(promt, ',' if multiple_letter_language else '') else "doesn't" } recognize "{promt}".""")
 
             elif action == "Complementary language":
                 try:
                     myAutomata.complementary()
-                    print("Here is the complement automata :")
+                    print("Here is the complement automaton :")
                     myAutomata.display(1)
                 except BadAutomata as e:
                     print(e.args[0])
@@ -150,8 +158,10 @@ if __name__ == '__main__':
                 except BadAction as e:
                     print(e.args[0])
 
-            if not inquirer.confirm(message="Do you want to continue with this automaton ?", raise_keyboard_interrupt=False, mandatory=False).execute(): # To chose if we want to continue with the modified automaton
+            # To chose if we want to continue with the modified automaton
+            if not inquirer.confirm(message="Do you want to continue with this automaton ?", raise_keyboard_interrupt=False, mandatory=False).execute():
                 myAutomata = None
-        menu_on = inquirer.confirm(message="Do you want to continue with another automaton ?", raise_keyboard_interrupt=False, mandatory=False).execute()
+        menu_on = inquirer.confirm(message="Do you want to continue with another automaton ?",
+                                   raise_keyboard_interrupt=False, mandatory=False).execute()
 
     tprint("Good Bye !", chr_ignore=True)
